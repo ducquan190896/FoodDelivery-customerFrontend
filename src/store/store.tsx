@@ -3,14 +3,18 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
+import RestaurantReducer from './reducers/RestaurantReducer';
+import DishReducer from './reducers/DishReducer';
 
 
 
-export const HOST_URL= "http://192.168.0.103:8080";
+export const HOST_URL= "http://100.76.188.137:8080";
 const initialState= {};
 
 const rootReducer = combineReducers({
-    USERS: userReducer
+    USERS: userReducer,
+    RESTAURANTS: RestaurantReducer,
+    DISHES: DishReducer
 });
 
 const middleware = [thunk];

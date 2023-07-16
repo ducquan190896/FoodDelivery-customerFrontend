@@ -3,12 +3,16 @@ import { Dispatch } from "react";
 import { HOST_URL } from "../store";
 import axios from "axios";
 import { ACTION, CHANGEPASSWORD, LoginForm,  UserRegisterForm } from "../../model/index.d";
+import { Alert } from 'react-native'
 
 export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    const {longitude, latitude, username, password} = loginForm;
     try {
         const res = await axios.put(HOST_URL + "/api/users/signIn", {
-            username: loginForm.username,
-            password: loginForm.password
+            username,
+            password,
+            longitude,
+            latitude
         });
  
         const data = res.data
@@ -23,6 +27,7 @@ export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
         })
     } catch (err) {
         console.log(err);
+        Alert.alert("login failed") 
         dispatch({
             type: "USER_ERROR",
             payload: err
@@ -54,19 +59,26 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
  
   export const ChangePasswordAction = (form: CHANGEPASSWORD) => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
-        const token : string | null = await AsyncStorage.getItem("token");  
-        const res = await axios.put(HOST_URL + "/api/users/changePassword", form, {
-            headers: {
-                "Authorization": token ?? ""
-            }
-        })
-        const data = await res.data
-        // console.log(res.headers.authorization?? "no token")
-        // await AsyncStorage.setItem("token", res.headers.authorization?? "")
-        dispatch({
-            type: "Change_Password",
-            payload: data
-        })
+        const token : string | null = await AsyncStorage.getItem("token"); 
+        if (token == null) {
+            console.log("token is null");
+            Alert.alert("token is null") 
+            dispatch({
+                type: "restaurant_error",
+                payload: "token is null"
+            });
+        } else { 
+            const res = await axios.put(HOST_URL + "/api/users/changePassword", form, {
+                headers: {
+                    "Authorization": token
+                }
+            })
+            const data = await res.data
+            dispatch({
+                type: "Change_Password",
+                payload: data
+            })
+        }
     } catch (err) {
         dispatch({
             type: "USER_ERROR",
@@ -77,23 +89,30 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
 
   export const getAuthUserAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
-       const token : string | null = await AsyncStorage.getItem("token");  
-       const res = await axios.get(HOST_URL + "/api/users/authUser/getAuthUser", {
-           headers: {
-               "Authorization": token ?? ""
-           }
-       })
-       const data = await res.data
-       // console.log(res.headers.authorization?? "no token")
-       // await AsyncStorage.setItem("token", res.headers.authorization?? "")
-       dispatch({
-           type: "get_authUser",
-           payload: data
-       })
+        const token : string | null = await AsyncStorage.getItem("token"); 
+        if (token == null) {
+            console.log("token is null");
+            Alert.alert("token is null") 
+            dispatch({
+                type: "restaurant_error",
+                payload: "token is null"
+            });
+        } else {
+            const res = await axios.get(HOST_URL + "/api/users/authUser/getAuthUser", {
+                headers: {
+                    "Authorization": token
+                }
+            })
+            const data = await res.data
+            dispatch({
+                type: "get_authUser",
+                payload: data
+            })
+        }
    } catch (err) {
        dispatch({
            type: "USER_ERROR",
-           payload: err
+           payload: "loading authenticated user failed"
        })
    }  
  }
@@ -102,16 +121,22 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
  
   export const LogOutAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
-        const token : string | null = await AsyncStorage.getItem("token");
-        await axios.get(HOST_URL + "/logout", {
-            headers: {
-                "Authorization": token ?? ""
-            }
-        })
-        await AsyncStorage.setItem("token", "")
-
-
-
+        const token : string | null = await AsyncStorage.getItem("token"); 
+        if (token == null) {
+            console.log("token is null");
+            Alert.alert("token is null") 
+            dispatch({
+                type: "restaurant_error",
+                payload: "token is null"
+            });
+        } else {
+            await axios.get(HOST_URL + "/logout", {
+                headers: {
+                    "Authorization": token
+                }
+            })
+        }
+        await AsyncStorage.removeItem("token");
         console.log("logout");
         dispatch({
             type: "LOG_OUT"

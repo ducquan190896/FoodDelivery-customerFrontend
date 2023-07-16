@@ -3,7 +3,6 @@ import { ACTION, declaredStateUser } from "../../model/index.d"
 
 let initialState = {
     authUser: {},
-    users: [],
     userUpdateStatus: false,
     userUpdated: {},
     message: null,
@@ -43,7 +42,6 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
             return {
                 ...state,
                 authUser: {},
-                users: [],
                 otherUser: {},
                 userSuccess: true
             }
