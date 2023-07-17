@@ -114,6 +114,14 @@ export interface BASKETDISH {
     basket: number
 }
 
+export interface declaredStateBasketDish  {
+    basketDish: BASKETDISH | {},
+    basketDishes: BASKETDISH[] | [],
+    message: string | null,
+    basketDishSuccess: boolean,
+    basketDishError: boolean
+}
+
 export interface CUSTOMER {
     id: number,
     user: USER

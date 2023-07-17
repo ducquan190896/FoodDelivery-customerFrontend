@@ -39,12 +39,12 @@ export default (state:  declaredStateBasket = initialState, action: ACTION) => {
         //         basket: action.payload,
         //         basketSuccess: true
         //     }
-        // case "remove_all_basketDishes_from_basket":
-        //     return {
-        //         ...state,
-        //         basket: action.payload,
-        //         basketSuccess: true
-        //     }
+        case "basket_remove_all_basketDishes_from_basket":
+            return {
+                ...state,
+                basket: action.payload,
+                basketSuccess: true
+            }
         case "basket_error":
             return {
                 ...state,

@@ -5,6 +5,9 @@ import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
 import RestaurantReducer from './reducers/RestaurantReducer';
 import DishReducer from './reducers/DishReducer';
+import BasketDishReducer from './reducers/BasketDishReducer';
+import BasketReducer from './reducers/BasketReducer';
+import CustomerReducer from './reducers/CustomerReducer';
 
 
 
@@ -14,7 +17,10 @@ const initialState= {};
 const rootReducer = combineReducers({
     USERS: userReducer,
     RESTAURANTS: RestaurantReducer,
-    DISHES: DishReducer
+    DISHES: DishReducer,
+    BASKETDISHES: BasketDishReducer,
+    BASKETS: BasketReducer,
+    CUSTOMERS: CustomerReducer
 });
 
 const middleware = [thunk];

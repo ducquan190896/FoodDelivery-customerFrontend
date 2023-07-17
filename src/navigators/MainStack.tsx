@@ -10,11 +10,8 @@ export type RootStackParamList = {
     SignUp: undefined,
     ChangePassword: undefined,
     BottomTabs: undefined,
-    PreferenceForm: undefined,
-    ConversationScreen: {
-      chatId?: number,
-      matchId?: number
-  }
+    
+    
 };
 
 const stack = createNativeStackNavigator<RootStackParamList>();

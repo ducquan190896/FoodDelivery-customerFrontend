@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, useWindowDimensions, Image, TouchableOpacity, ListRenderItem, FlatList, ScrollView } from 'react-native'
-import React  , {useCallback, useEffect, useState} from 'react'
+import React  , {useCallback, useEffect, useState, useRef, useMemo} from 'react'
 import { CompositeNavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RestaurantStackParamList } from '../navigators/RestaurantStack';
@@ -16,6 +16,10 @@ import { dishesByRestaurantAction } from '../store/actions/DishAction';
 import LoadingComponent from '../components/LoadingComponent';
 import { DISH } from '../model/index.d';
 import DishComponent from '../components/DishComponent';
+import BottomSheet, {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet"
+import DetailedRestaurantHeader from '../components/DetailedRestaurantHeader';
+import DetailedRestaurantDishChoice from '../components/DetailedRestaurantDishChoice';
+import { basketByAuthUserAndRestaurantAction, resetBasketAction } from '../store/actions/BasketAction';
 
 const imageDefault = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80";
 
@@ -29,22 +33,45 @@ type DetailedRestaurantRouteProp = RouteProp<RestaurantStackParamList, "DetailRe
 const DetailRestaurant = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isrefreshing, setIsRefreshing] = useState<boolean>(false);
+    const [food, setFood] = useState<DISH | null>(null);
     const navigation = useNavigation<DetailRestaurantNavigationProp>();
     const tw = useTailwind();
     const {restaurant, restaurantError, restaurantSuccess} = useSelector((state: RootState) => state.RESTAURANTS);
     const {dishes, dishError, dishSuccess} = useSelector((state: RootState) => state.DISHES);
     const { authUser, authError, authSuccess} = useSelector((state: RootState) => state.USERS);
+    const { basket, basketError, basketSuccess} = useSelector((state: RootState) => state.BASKETS);
     const dispatch = useDispatch();
     const {restaurantId} = useRoute<DetailedRestaurantRouteProp>().params;
+    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+    const snapPonits = useMemo(() => ['3', '40'], [])
     const width = useWindowDimensions().width;
-    const height = useWindowDimensions().height;
+
+    const handleSheetChange = useCallback((index: any) => {
+        console.log(index)
+    }, []);
+
+    const handlePresentModalPress = useCallback((item: DISH) => {
+        bottomSheetModalRef.current?.present();
+        setFood(item);
+    }, []);
+
+    const handleDismissModalPress = useCallback(() => {
+        bottomSheetModalRef.current?.dismiss();
+        setFood(null);
+    }, []);
 
 
     const loadRestaurant = useCallback(async () => {
         setIsRefreshing(true);
         await dispatch(restaurantByIdAndAuthCustomerAction(restaurantId) as any);
         setIsRefreshing(false);
-    }, [authUser, restaurant]);
+    }, [authUser, restaurantId]);
+
+    const loadBasket = useCallback(async () => {
+        dispatch(resetBasketAction() as any)
+        await dispatch(basketByAuthUserAndRestaurantAction(restaurantId) as any);
+    }, [authUser, restaurantId]);
+
 
     const loadDishes = useCallback(async () => {
         setIsRefreshing(true);
@@ -54,51 +81,79 @@ const DetailRestaurant = () => {
 
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: DISH}) => {
         return (
-           <DishComponent navigation={navigation} dish={item}></DishComponent>
+           <DishComponent handlePressItem={() => handlePresentModalPress(item)} navigation={navigation} dish={item}></DishComponent>
         )
     }
     
     useEffect(() => {
         setIsLoading(true);
         loadRestaurant();
-    }, [authUser])
+        loadBasket();
+    }, [authUser, restaurantId])
 
     useEffect(() => {
         setIsLoading(true);
         loadDishes().then(() => setIsLoading(false));
     }, [restaurantId])
 
+    const navigateToBasketScreen = () => {
+        // if(basket) {
+        //      navigation.navigate("BasketScreen", {basketId: basket?.id})
+        // }
+    }
+
     if(isLoading) {
         return <LoadingComponent/>
-      }
+    }
 
   return (
-    <ScrollView style={tw('flex-1 bg-white relative')}>
-       
-        <View style={tw('relative')}>
-            <Image source={{uri: restaurant?.imageurl ? restaurant?.imageurl : imageDefault}} style={[tw('mb-2'), {height: height/3, width: width}]}></Image>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
-                <AntDesign name='arrowleft' size={26} color="black"></AntDesign>
+    <BottomSheetModalProvider>
+    <View style={tw('flex-1 relative')}>
+        <FlatList
+            ListHeaderComponent={() => <DetailedRestaurantHeader navigation={navigation} restaurant={restaurant}></DetailedRestaurantHeader>}
+            refreshing={isrefreshing}
+            onRefresh={loadDishes}
+            data={dishes?.length > 0 && dishes}
+            keyExtractor={(item: any) => item.id}
+            renderItem={handleRenderItem}
+            showsVerticalScrollIndicator={false}
+        />
+        <View style={styles.container}>
+            <BottomSheetModal
+                ref={bottomSheetModalRef}
+                index={1}
+                snapPoints={snapPonits}
+                onChange={handleSheetChange} 
+                onDismiss={() => setFood(null)}
+            >
+                <View style={styles.contentContainer}>
+                    {food && basket && <DetailedRestaurantDishChoice basket={basket?.id} dish={food} closeModal={handleDismissModalPress}></DetailedRestaurantDishChoice>}
+                </View>
+            </BottomSheetModal>
+        </View>
+       {basket && basket.total > 0 && (
+            <TouchableOpacity onPress={navigateToBasketScreen} style={[tw('absolute bg-blue-500 rounded-md items-center justify-center'), {bottom: 10, left: width/4, width: width / 2, height: 50}]}>
+                <Text style={tw('text-white font-bold text-lg')}>{basket.quantity} items</Text>
             </TouchableOpacity>
-        </View>
-        <View style={tw('px-4')}>
-            <Text style={tw('text-3xl font-bold text-black my-2')}>{restaurant?.name}</Text>
-            <Text style={tw('text-lg text-black')}>{restaurant?.address}, {restaurant?.city} </Text>
-            <View style={tw('flex flex-row items-center justify-start mt-6')}>
-                <Entypo name={restaurant?.rating > 4 ?  "emoji-flirt" : (restaurant?.rating > 3) ? "emoji-happy" : restaurant?.rating > 2 ? "emoji-neutral" : "emoji-sad"} size={24} color="black"></Entypo>
-                <Text style={tw('mx-2 ml-6 text-lg text-black')}>{(Math.round(restaurant?.rating * 100  / 100).toFixed(2))}</Text>
-            </View>
-            <View style={tw('flex flex-row items-center justify-start my-2 mb-8')}>
-                <Ionicons name='bicycle' size={26} color="black"></Ionicons>
-                <Text style={tw('mx-2 ml-6 text-lg text-black')}>Delivery in {restaurant?.estimatedTime - 5} - {restaurant?.estimatedTime + 5} minutes</Text>
-            </View>
-            {dishes && dishes.length > 0 && dishes.map((dish: DISH) => <DishComponent navigation={navigation} dish={dish} key={dish?.id}></DishComponent>)}
-            
-        </View>
-    </ScrollView>
+       )}
+    </View>
+    </BottomSheetModalProvider>
   )
 }
 
 export default DetailRestaurant
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 25,
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        height: "100%"
+    },
+    contentContainer: {
+        flex: 1,
+        alignItems: 'center'
+    }
+})
