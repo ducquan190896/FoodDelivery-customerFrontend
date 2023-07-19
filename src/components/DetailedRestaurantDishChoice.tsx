@@ -7,16 +7,18 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import IncreaseDecreaseNumber from './IncreaseDecreaseNumber';
 import { useDispatch, useSelector } from 'react-redux';
-import { basketDishByDishAndBasketAction, resetBasketDishItemAction, addBasketDishAction, removeBasketDishAction, updateBasketDishAction } from '../store/actions/BasketDishAction';
+import { basketDishByDishAndBasketAction, resetBasketDishItemAction, addBasketDishAction, removeBasketDishAction, updateBasketDishAction, basketDishByIdAction } from '../store/actions/BasketDishAction';
 import { RootState } from '../store/store';
 import { basketByIdAction } from '../store/actions/BasketAction';
 type DishChoiceComponent = {
     dish: DISH,
     basket: number,
+    basketDishId?: number,
     closeModal: () => void
 }
+// defined optionally basketDishID in the params 
 
-const DetailedRestaurantDishChoice = ({dish, basket, closeModal}: DishChoiceComponent) => {
+const DetailedRestaurantDishChoice = ({dish, basket, basketDishId, closeModal}: DishChoiceComponent) => {
     const [quantity, setQuantity] = useState<number>(1);
     const tw = useTailwind();
     const width = useWindowDimensions().width;
@@ -25,9 +27,14 @@ const DetailedRestaurantDishChoice = ({dish, basket, closeModal}: DishChoiceComp
     const {basketDish} = useSelector((state: RootState) => state.BASKETDISHES);
 
     const loadBasketDish = useCallback( async () => {
-        dispatch(basketDishByDishAndBasketAction(dish.id, basket) as any)
+        
+        if(basketDishId) {
+            dispatch(basketDishByIdAction(basketDishId) as any)
+        } else {
+            dispatch(basketDishByDishAndBasketAction(dish.id, basket) as any)
+        }
         dispatch(resetBasketDishItemAction() as any);
-    }, [basket, dish])
+    }, [basket, dish, basketDishId])
 
     useEffect(() => {
         console.log("basket " + basket + " , dish: " + dish.id);
@@ -51,7 +58,7 @@ const DetailedRestaurantDishChoice = ({dish, basket, closeModal}: DishChoiceComp
 
     const updateBasket = async () => {
         if(basketDish) {
-            dispatch(updateBasketDishAction(basketDish?.id, quantity) as any)
+            await dispatch(updateBasketDishAction(basketDish?.id, quantity) as any)
             dispatch(basketByIdAction(basket) as any);
             closeModal();
         }

@@ -7,11 +7,19 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RestaurantStack from './RestaurantStack';
+import OrderDetailed from '../screens/OrderDetailed';
+import OrderStack, { OrderStackParamList } from './OrderStack';
 
 
 export type BottomTabProps = {
-    RestaurantStack: undefined,
-  
+    RestaurantStack: {
+        screen: string,
+        params?: any
+    },
+    OrderStack: {
+        screen: string,
+        params?: any
+    }
 }
 
 const tab = createBottomTabNavigator<BottomTabProps>();
@@ -24,7 +32,8 @@ const BottomTabs = () => {
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarInactiveTintColor: '#c7c9c9',
-                tabBarActiveTintColor: '#6203fc'
+                tabBarActiveTintColor: '#6203fc',
+                unmountOnBlur: true
             }}
             initialRouteName='RestaurantStack'
         >
@@ -37,6 +46,16 @@ const BottomTabs = () => {
                 }} 
                 name="RestaurantStack" 
                 component={RestaurantStack}
+            ></tab.Screen>
+              <tab.Screen 
+                options={{
+                headerShown: false,
+                tabBarIcon: ({color}) => (
+                    <Entypo name="box" size={24} color={color} />
+                    )
+                }} 
+                name="OrderStack" 
+                component={OrderStack}
             ></tab.Screen>
            
         </tab.Navigator>

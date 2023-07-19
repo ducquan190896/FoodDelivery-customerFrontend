@@ -3,14 +3,14 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import BottomTabs from './BottomTabs';
+import OrderDetailed from '../screens/OrderDetailed';
 
 
 export type RootStackParamList = {
     Login: undefined,
     SignUp: undefined,
     ChangePassword: undefined,
-    BottomTabs: undefined,
-    
+    BottomTabs: undefined
     
 };
 
@@ -23,7 +23,6 @@ const MainStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
- 
       <stack.Screen name="Login" component={LoginScreen} />
       <stack.Screen name="BottomTabs" component={BottomTabs} />
       

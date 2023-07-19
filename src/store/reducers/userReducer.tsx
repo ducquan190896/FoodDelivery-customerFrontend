@@ -37,7 +37,18 @@ export default (state: declaredStateUser = initialState, action: ACTION) => {
                 authUser: action.payload,
                 userSuccess: true
             }
-    
+        case "update_coordinate":
+            return {
+                ...state,
+                authUser: action.payload,
+                userSuccess: true
+            }
+        case "update_textAddress":
+            return {
+                ...state,
+                authUser: action.payload,
+                userSuccess: true
+            }
         case "LOG_OUT":
             return {
                 ...state,

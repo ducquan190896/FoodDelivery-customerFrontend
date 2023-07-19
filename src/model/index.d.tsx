@@ -134,3 +134,88 @@ export interface declaredStateCustomer  {
     customerError: boolean
 }
 
+export enum AVAILABLE {
+    ONLINE = "ONLINE",
+    OFFLINE = "OFFLINE"
+}
+
+export enum NAVIGATION_MODE {
+    CAR = "CAR",
+    BICYCLE = "BICYCLE"
+}
+
+export enum ORDER_STATUS {
+    NEW = "NEW",
+    OWNER_REJECTED ="OWNER_REJECTED",
+    COOKING = "COOKING",
+    READY_FOR_PICKUP = "READY_FOR_PICKUP",
+    COURIER_ACCEPTED = "COURIER_ACCEPTED",
+    COURIER_REJECTED = "COURIER_REJECTED",
+    PICKED_UP = "PICKED_UP",
+    COMPLETED = "COMPLETED"
+}
+
+export interface COURIER {
+    id: number,
+    user: USER,
+    status: AVAILABLE,
+    available: boolean
+    mode: NAVIGATION_MODE
+}
+
+export interface ORDER {
+    id: number,
+    customer: CUSTOMER,
+    restaurant: RESTAURANT,
+    courier: COURIER,
+    status: ORDER_STATUS,
+    total: number,
+    deliveryFee: number,
+    finalPrice: number,
+    quantity: number,
+    note: string,
+    d2Distance: number,
+    totalTime: number,
+    toLongitude: number,
+    toLatitude: number,
+    fromLongitude: number,
+    fromLatitude: number,
+    address: string,
+    zipcode: string,
+    city: string
+    createdDate: string,
+    updatedDate: string
+}
+
+export interface declaredStateOrder  {
+    order: ORDER | {},
+    orders: ORDER[] | []
+    message: string | null,
+    orderSuccess: boolean,
+    orderError: boolean
+}
+
+export interface ORDER_REQUEST {
+    basketID: number,
+    address?: string,
+    zipcode?: string,
+    city?: string,
+    note?: string,
+    toLatitude?: number,
+    toLongitude?: number
+}
+
+export interface ORDERDISH {
+    id: number,
+    quantity: number,
+    dish: DISH,
+    order: number
+}
+export interface declaredStateOrderDish  {
+    orderDish: ORDERDISH | {},
+    orderDishes: ORDERDISH[] | []
+    message: string | null,
+    orderDishSuccess: boolean,
+    orderDishError: boolean
+}
+

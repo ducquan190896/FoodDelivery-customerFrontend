@@ -2,81 +2,88 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Dispatch } from "react";
 import { HOST_URL } from "../store";
 import axios from "axios";
-import { ACTION, CHANGEPASSWORD, LoginForm,  UserRegisterForm } from "../../model/index.d";
+import { ACTION} from "../../model/index.d";
 import { Alert } from 'react-native'
 
 
 
-export const dishByIdAction = (dishId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const orderDishByIdAction = (orderDishID: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token : string | null = await AsyncStorage.getItem("token"); 
         if(token == null) {
             console.log("token is null");
             Alert.alert("token is null") 
             dispatch({
-                type: "dish_error",
+                type: "orderDish_error",
                 payload: "token is null"
             });
         } else {
-            const res = await axios.get(HOST_URL + "/api/dishes/dish/" + dishId, {
+            const res = await axios.get(HOST_URL + "/api/orderdishes/orderdish/" + orderDishID, {
                 headers: {
                     "Authorization": token
                 }
             });
             const data = res.data;
-            console.log("dish_by_id");
+            console.log("orderDish_by_id");
             console.log(res.data);
             dispatch({
-                type: "dish_by_id",
+                type: "orderDish_by_id",
                 payload: data
             })
         }
     } catch (err) {
         console.log(err);
-        Alert.alert("loading dish failed") 
+        Alert.alert("loading orderDish failed") 
         dispatch({
-            type: "dish_error",
-            payload: "loading dish failed"
+            type: "orderDish_error",
+            payload: "loading orderDish failed"
         });
     }
 }
 
-export const dishesByRestaurantAction = (restaurantId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const orderDishesByOrderIdAction = (orderID: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token : string | null = await AsyncStorage.getItem("token"); 
         if(token == null) {
             console.log("token is null");
             Alert.alert("token is null") 
             dispatch({
-                type: "dish_error",
+                type: "orderDish_error",
                 payload: "token is null"
             });
         } else {
-            const res = await axios.get(HOST_URL + "/api/dishes/restaurant/" + restaurantId, {
+            const res = await axios.get(HOST_URL + "/api/orderdishes/order/" + orderID, {
                 headers: {
                     "Authorization": token
                 }
             });
             const data = res.data;
-            console.log("dishes_by_restaurant");
+            console.log("orderDishes_by_order");
             console.log(res.data);
             dispatch({
-                type: "dishes_by_restaurant",
+                type: "orderDishes_by_order",
                 payload: data
             })
         }
     } catch (err) {
         console.log(err);
-        Alert.alert("loading dishes failed") 
+        Alert.alert("loading orderDish failed") 
         dispatch({
-            type: "dish_error",
-            payload: "loading dishes failed"
+            type: "orderDish_error",
+            payload: "loading orderDish failed"
         });
     }
 }
 
-export const resetDishAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {
+export const resetOrderDishesAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {
     dispatch({
-        type: "dish_reset"
+        type: "orderDishes_reset"
     })
 }
+
+export const resetSingleOrderDishAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {
+    dispatch({
+        type: "orderDish_item_reset"
+    })
+}
+

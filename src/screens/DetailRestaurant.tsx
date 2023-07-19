@@ -68,8 +68,8 @@ const DetailRestaurant = () => {
     }, [authUser, restaurantId]);
 
     const loadBasket = useCallback(async () => {
-        dispatch(resetBasketAction() as any)
-        await dispatch(basketByAuthUserAndRestaurantAction(restaurantId) as any);
+        await dispatch(resetBasketAction() as any)
+        dispatch(basketByAuthUserAndRestaurantAction(restaurantId) as any);
     }, [authUser, restaurantId]);
 
 
@@ -97,9 +97,9 @@ const DetailRestaurant = () => {
     }, [restaurantId])
 
     const navigateToBasketScreen = () => {
-        // if(basket) {
-        //      navigation.navigate("BasketScreen", {basketId: basket?.id})
-        // }
+        if(basket) {
+             navigation.navigate("BasketScreen", {basketId: basket?.id, restaurantId: restaurantId})
+        }
     }
 
     if(isLoading) {
@@ -108,35 +108,35 @@ const DetailRestaurant = () => {
 
   return (
     <BottomSheetModalProvider>
-    <View style={tw('flex-1 relative')}>
-        <FlatList
-            ListHeaderComponent={() => <DetailedRestaurantHeader navigation={navigation} restaurant={restaurant}></DetailedRestaurantHeader>}
-            refreshing={isrefreshing}
-            onRefresh={loadDishes}
-            data={dishes?.length > 0 && dishes}
-            keyExtractor={(item: any) => item.id}
-            renderItem={handleRenderItem}
-            showsVerticalScrollIndicator={false}
-        />
-        <View style={styles.container}>
-            <BottomSheetModal
-                ref={bottomSheetModalRef}
-                index={1}
-                snapPoints={snapPonits}
-                onChange={handleSheetChange} 
-                onDismiss={() => setFood(null)}
-            >
-                <View style={styles.contentContainer}>
-                    {food && basket && <DetailedRestaurantDishChoice basket={basket?.id} dish={food} closeModal={handleDismissModalPress}></DetailedRestaurantDishChoice>}
-                </View>
-            </BottomSheetModal>
+        <View style={tw('flex-1 relative')}>
+            <FlatList
+                ListHeaderComponent={() => <DetailedRestaurantHeader navigation={navigation} restaurant={restaurant}></DetailedRestaurantHeader>}
+                refreshing={isrefreshing}
+                onRefresh={loadDishes}
+                data={dishes?.length > 0 && dishes}
+                keyExtractor={(item: any) => item.id}
+                renderItem={handleRenderItem}
+                showsVerticalScrollIndicator={false}
+            />
+            <View style={styles.container}>
+                <BottomSheetModal
+                    ref={bottomSheetModalRef}
+                    index={1}
+                    snapPoints={snapPonits}
+                    onChange={handleSheetChange} 
+                    onDismiss={() => setFood(null)}
+                >
+                    <View style={styles.contentContainer}>
+                        {food && basket && <DetailedRestaurantDishChoice basket={basket?.id} dish={food} closeModal={handleDismissModalPress}></DetailedRestaurantDishChoice>}
+                    </View>
+                </BottomSheetModal>
+            </View>
+            {basket && basket.total > 0 && (
+                <TouchableOpacity onPress={navigateToBasketScreen} style={[tw('absolute bg-blue-500 rounded-md items-center justify-center'), {bottom: 10, left: width/4, width: width / 2, height: 50}]}>
+                    <Text style={tw('text-white font-bold text-lg')}>{basket.quantity} items  -  €{Math.round(basket.total * 100 / 100).toFixed(2)}</Text>
+                </TouchableOpacity>
+            )}
         </View>
-       {basket && basket.total > 0 && (
-            <TouchableOpacity onPress={navigateToBasketScreen} style={[tw('absolute bg-blue-500 rounded-md items-center justify-center'), {bottom: 10, left: width/4, width: width / 2, height: 50}]}>
-                <Text style={tw('text-white font-bold text-lg')}>{basket.quantity} items</Text>
-            </TouchableOpacity>
-       )}
-    </View>
     </BottomSheetModalProvider>
   )
 }

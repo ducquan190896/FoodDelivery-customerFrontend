@@ -8,6 +8,8 @@ import DishReducer from './reducers/DishReducer';
 import BasketDishReducer from './reducers/BasketDishReducer';
 import BasketReducer from './reducers/BasketReducer';
 import CustomerReducer from './reducers/CustomerReducer';
+import OrderReducer from './reducers/OrderReducer';
+import OrderDishReducer from './reducers/OrderDishReducer';
 
 
 
@@ -20,7 +22,9 @@ const rootReducer = combineReducers({
     DISHES: DishReducer,
     BASKETDISHES: BasketDishReducer,
     BASKETS: BasketReducer,
-    CUSTOMERS: CustomerReducer
+    CUSTOMERS: CustomerReducer,
+    ORDERS: OrderReducer,
+    ORDERDISHES: OrderDishReducer
 });
 
 const middleware = [thunk];

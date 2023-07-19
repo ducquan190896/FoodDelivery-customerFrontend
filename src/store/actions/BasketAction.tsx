@@ -30,7 +30,7 @@ export const basketByIdAction = (basketId: number) => async (dispatch: Dispatch<
             })
         }
     } catch (err) {
-        console.log(err);
+        console.log("basket failed in loading "  + err);
         Alert.alert("loading basket failed") 
         dispatch({
             type: "basket_error",
@@ -64,7 +64,7 @@ export const basketByAuthUserAndRestaurantAction = (restaurantId: number) => asy
             })
         }
     } catch (err) {
-        console.log(err);
+        console.log("basket failed in loading "  + err);
         Alert.alert("loading basket failed") 
         dispatch({
             type: "basket_error",
@@ -97,7 +97,7 @@ export const basketByCustomerAndRestaurantAction = (restaurantId: number, custom
             })
         }
     } catch (err) {
-        console.log(err);
+        console.log("basket failed in loading "  + err);
         Alert.alert("loading basket failed") 
         dispatch({
             type: "basket_error",
@@ -131,7 +131,7 @@ export const removeAllItemsForBasketAction = (basketId: number) => async (dispat
             })
         }
     } catch (err) {
-        console.log(err);
+        console.log("basket failed in loading "  + err);
         Alert.alert("loading basket failed") 
         dispatch({
             type: "basket_error",

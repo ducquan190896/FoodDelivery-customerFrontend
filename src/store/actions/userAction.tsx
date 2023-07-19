@@ -64,7 +64,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
             console.log("token is null");
             Alert.alert("token is null") 
             dispatch({
-                type: "restaurant_error",
+                type: "USER_ERROR",
                 payload: "token is null"
             });
         } else { 
@@ -86,6 +86,68 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
         })
     }  
   }
+  export const updateCoordinateAction = (longitude: number, latitude: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+       const token : string | null = await AsyncStorage.getItem("token"); 
+       if (token == null) {
+           console.log("token is null");
+           Alert.alert("token is null") 
+           dispatch({
+               type: "USER_ERROR",
+               payload: "token is null"
+           });
+       } else { 
+           
+            const res = await axios.put(HOST_URL + `/api/users/update/longitude/${longitude}/latitude/${latitude}`, {}, {
+               headers: {
+                   "Authorization": token
+               }
+            })
+            const data = await res.data
+            dispatch({
+               type: "update_coordinate",
+               payload: data
+            })
+            console.log(`longitude ${longitude} , latitude ${latitude}`);
+       }
+    } catch (err) {
+       dispatch({
+           type: "USER_ERROR",
+           payload: err
+       })
+   }  
+ }
+ export const updateTextAddressAction = (address: string, zipcode: string, city: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+       const token : string | null = await AsyncStorage.getItem("token"); 
+       if (token == null) {
+           console.log("token is null");
+           Alert.alert("token is null") 
+           dispatch({
+               type: "USER_ERROR",
+               payload: "token is null"
+           });
+       } else { 
+           
+            const res = await axios.put(HOST_URL + `/api/users/update/zipcode/${zipcode}/city/${city}/address/${address}`, {}, {
+               headers: {
+                   "Authorization": token
+               }
+            })
+            const data = await res.data
+            dispatch({
+               type: "update_textAddress",
+               payload: data
+            })
+            console.log(`address ${address}, zipcode ${zipcode} city ${city}`);
+       }
+    } catch (err) {
+       dispatch({
+           type: "USER_ERROR",
+           payload: err
+       })
+   }  
+ }
 
   export const getAuthUserAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
@@ -94,7 +156,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
             console.log("token is null");
             Alert.alert("token is null") 
             dispatch({
-                type: "restaurant_error",
+                type: "USER_ERROR",
                 payload: "token is null"
             });
         } else {
@@ -126,7 +188,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
             console.log("token is null");
             Alert.alert("token is null") 
             dispatch({
-                type: "restaurant_error",
+                type: "USER_ERROR",
                 payload: "token is null"
             });
         } else {
