@@ -1,4 +1,4 @@
-import { ACTION, declaredStateOrder,  } from "../../model/index.d"
+import { ACTION, ORDER, declaredStateOrder,  } from "../../model/index.d"
 
 const initialState = {
     order: {},
@@ -16,6 +16,12 @@ export default (state:  declaredStateOrder= initialState, action: ACTION) => {
                 orders: action.payload,
                 orderSuccess: true 
             }
+        case "orders_by_Customer":
+            return {
+                ...state,
+                orders: action.payload,
+                orderSuccess: true 
+            }
         case "order_by_id":
             return {
                 ...state,
@@ -25,13 +31,22 @@ export default (state:  declaredStateOrder= initialState, action: ACTION) => {
          case "order_update_from_websocket_Subscription":
             return {
                 ...state,
-                order: action.payload,
+                // order: action.payload,
+                orders: state.orders.map((item: ORDER) => item.id == action.payload.id ? action.payload : item),
                 orderSuccess: true
             }
         case "order_create":
             return {
                 ...state,
                 order: action.payload,
+                orders: [action.payload, ...state.orders],
+                orderSuccess: true
+            }
+        case "reordering_create":
+            return {
+                ...state,
+                order: action.payload,
+                orders: [action.payload, ...state.orders],
                 orderSuccess: true
             }
         case "order_error":
@@ -47,7 +62,7 @@ export default (state:  declaredStateOrder= initialState, action: ACTION) => {
                 orderSuccess: false,
                 orderError: false,
                 order: {},
-                orders: [],
+                // orders: [],
             }
         case "active_order_reset":
             return {

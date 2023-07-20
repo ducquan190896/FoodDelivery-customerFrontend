@@ -21,11 +21,11 @@ const BasketScreenItem = ({basketDish, handlePressItem}: BasketDishComponentProp
 
   return (
     <TouchableOpacity onPress={pressFunction} style={tw('w-full flex-row items-center justify-between border-b border-gray-200 my-2 pb-4 px-4')}>
-        <Text style={[tw('text-blue-500 mr-4'), {fontSize: 18}]}>{basketDish.quantity}</Text>
+        <Text style={[tw('text-black mr-4'), {fontSize: 18}]}>{basketDish.quantity}</Text>
         <View style={tw('flex items-start justify-start flex-1')}>
-            <Text style={[tw(' font-bold text-blue-500 '), {fontSize: 18}]}>{basketDish.dish.name}</Text>
+            <Text style={[tw(' font-bold text-black '), {fontSize: 18}]}>{basketDish.dish.name}</Text>
         </View>
-        <Text style={tw(' text-blue-500 ')}>{Math.round(basketDish.dish.price * basketDish.quantity * 100 / 100).toFixed(2)} €</Text>
+        <Text style={tw(' text-black ')}>{Math.round(basketDish.dish.price * basketDish.quantity * 100 / 100).toFixed(2)} €</Text>
     </TouchableOpacity>
   )
 }

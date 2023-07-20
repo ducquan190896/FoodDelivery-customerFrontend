@@ -70,7 +70,6 @@ const HomeScreen = () => {
 
 
   const handleRenderItem: ListRenderItem<any> = ({item}: {item: RESTAURANT}) => {
-   
     return (
        <RestaurantCard restaurant={item} navigation={navigation}></RestaurantCard>
     )
@@ -87,17 +86,17 @@ const HomeScreen = () => {
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={tw('flex-1 bg-gray-100 bg-white')}>
-        <View style={tw('flex flex-row justify-between items-center w-full px-2')}>
+        <View style={tw('flex flex-row justify-between items-center w-full px-2 mt-2')}>
           <TouchableOpacity onPress={handlePresentModalPress} style={tw('flex flex-row justify-start items-start flex-1')}>
-            <Entypo name='location-pin' size={40} color="#3b82f6"></Entypo>
+            <Entypo name='location-pin' size={40} color="#f7691a"></Entypo>
             {!currentLocation ? (
-              <Text style={[tw('text-lg font-bold text-blue-500 my-2 ml-4'), {fontFamily: "Segoe UI"}]}>Restaurants near you</Text>
+              <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>Restaurants near you</Text>
             ): (
-              <Text style={[tw('text-lg font-bold text-blue-500 my-2 ml-4'), {fontFamily: "Segoe UI"}]}>{currentLocation}</Text>
+              <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>{currentLocation}</Text>
             )}
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToMap} style={tw('')}>
-            <Entypo name='map' size={28} color="black"></Entypo>
+            <Entypo name='map' size={28} color="#f7691a"></Entypo>
           </TouchableOpacity>
         </View>
         <View style={[tw('flex-1 items-center justify-center w-full h-full ')]}>

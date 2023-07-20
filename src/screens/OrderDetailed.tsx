@@ -12,15 +12,20 @@ import { RestaurantStackParamList } from '../navigators/RestaurantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { BottomTabProps } from '../navigators/BottomTabs';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import { HOST_URL, RootState } from '../store/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { orderByIdAction, resetOrderAction } from '../store/actions/OrderAction';
+import { orderByIdAction, resetOrderAction, updateOrderFromWebsocket } from '../store/actions/OrderAction';
 import { orderDishesByOrderIdAction, resetOrderDishesAction } from '../store/actions/OrderDishAction';
-import { ORDER } from '../model/index.d';
+import { ORDER, ORDER_STATUS } from '../model/index.d';
 import { OrderStackParamList } from '../navigators/OrderStack';
 import LoadingComponent from '../components/LoadingComponent';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import DetailedOrderBottomSheet from '../components/DetailedOrderBottomSheet';
+import axios from 'axios';
+import SockJS from "sockjs-client";
+import {over} from "stompjs"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const GOOGLE_MAPS_APIKEY = '';
@@ -28,9 +33,7 @@ const GOOGLE_MAPS_APIKEY = '';
 
 export type OrderDetailedNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<OrderStackParamList, "OrderDetailed">,
-BottomTabNavigationProp<BottomTabProps>
-
->;
+BottomTabNavigationProp<BottomTabProps>>;
 
 type OrderDetailedRouteProp = RouteProp<OrderStackParamList, "OrderDetailed">;
 
@@ -42,7 +45,7 @@ type LOCATION = {
 const OrderDetailed = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isrefreshing, setIsRefreshing] = useState<boolean>(false);
-  // const [activeOrder, setActiveOrder] = useState<ORDER | null>(null);
+  const [activeOrder, setActiveOrder] = useState<ORDER | null>(null);
   const [origin, setOrigin] = useState<LOCATION | null>(null);
   const [destination, setDestination] = useState<LOCATION | null>(null);
   const tw = useTailwind();
@@ -53,9 +56,10 @@ const OrderDetailed = () => {
   const dispatch = useDispatch();
   const map = useRef<any>();
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['10', '90'], [])
-  // const orderID = useRoute<OrderDetailedRouteProp>().params.orderID; 
-  const orderID = 1;
+  const snapPoints = useMemo(() => ['25', '90'], [])
+  const orderID = useRoute<OrderDetailedRouteProp>().params.orderID; 
+  // const orderID = 1;
+  const [stompClient, setStompClient] = useState<any | null>(null);
 
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -85,7 +89,8 @@ const OrderDetailed = () => {
   }, [orderID, authUser])
 
   useEffect(() => {
-    if(order) {
+    if(order ) {
+      setActiveOrder(order)
       setOrigin({
         longitude: order?.fromLongitude,
         latitude: order?.fromLatitude
@@ -104,11 +109,45 @@ const OrderDetailed = () => {
     }
   }, [origin, destination])
 
+
+  const connect =  async () => {
+    const token = await AsyncStorage.getItem("token");
+    let sock = SockJS(HOST_URL + "/socket");
+    let stompClient = over(sock);
+    setStompClient(stompClient);
+    if(stompClient.status !== "CONNECTED") {
+      stompClient.connect({Authorization: token}, (frame: any) => {
+        stompClient.subscribe(`/order/${orderID}`, orderUpdated)
+      }, notConnected)
+    }
+  }
+
+  const orderUpdated = (payload: any) => {
+    const orderUpdated : ORDER = JSON.parse(payload.body);
+    console.log("order received from websocket");
+    console.log(orderUpdated);
+    if(orderUpdated.id == orderID) {
+      setActiveOrder(orderUpdated);
+      // update the order in order list of redux store
+      dispatch(updateOrderFromWebsocket(orderUpdated) as any);
+    }
+  }
+
+  const notConnected = () => {
+    console.log("not connected")
+  }
+
+  useEffect(() => {
+    if(stompClient == null && orderID) {
+      connect();
+    }
+  }, [stompClient])
+
   if(isLoading) {
     return <LoadingComponent></LoadingComponent>
   }
 
-  if(!order) {
+  if(!activeOrder) {
     return (
       <View style={tw('flex-1 items-center justify-center')}>
         <Text>No order</Text>
@@ -118,7 +157,10 @@ const OrderDetailed = () => {
 
   return (
     <View style={tw('flex-1 relative')}>
-      {order && order?.id == orderID && destination && origin && (
+      <TouchableOpacity onPress={() => navigation.navigate("OrderListScreen")} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
+                <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
+      </TouchableOpacity>
+      {activeOrder  && activeOrder?.id == orderID && destination && origin && (
         <>
           <MapView      
                 ref={map}
@@ -142,7 +184,7 @@ const OrderDetailed = () => {
                     borderColor: "grey",
                     borderWidth: 1,
                   }}>
-                    <Entypo name='home' size={24} color="red"></Entypo>
+                    <Entypo name='home' size={24} color="#f7691a"></Entypo>
                   </View>
               </Marker>
               <Marker
@@ -156,7 +198,7 @@ const OrderDetailed = () => {
                     borderColor: "grey",
                     borderWidth: 1,
                   }}>
-                    <Ionicons name="fast-food" size={24} color="red" />
+                    <Ionicons name="fast-food" size={24} color="#f7691a" />
                   </View>
               </Marker>
           </MapView>
@@ -167,19 +209,13 @@ const OrderDetailed = () => {
             onChange={handleSheetChanges}
           >
             <BottomSheetScrollView>
-              <DetailedOrderBottomSheet order={order} orderDishes={orderDishes}></DetailedOrderBottomSheet>
+              <DetailedOrderBottomSheet order={activeOrder} orderDishes={orderDishes}></DetailedOrderBottomSheet>
             </BottomSheetScrollView>
           </BottomSheet>
         </>
       )} 
     </View>
   )
-
-
-
-  // return (
-  //   <View></View>
-  // )
 }
 
 export default OrderDetailed

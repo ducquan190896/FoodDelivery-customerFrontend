@@ -18,12 +18,12 @@ const BasketScreenFooter = ({price, quantity}: FooterBasketScreenProp) => {
     return (
       <View style={[tw('px-4 mt-4'), {width: width}]}>
             <View style={[tw('flex flex-row items-center justify-between my-2'), {}]}>
-                <Text style={tw('text-lg text-blue-500 ')}>Total Items</Text>
-                <Text style={tw('text-lg text-blue-500 ')}>{quantity}</Text>
+                <Text style={tw('text-lg text-black ')}>Total Items</Text>
+                <Text style={tw('text-lg text-black ')}>{quantity}</Text>
             </View>
            <View style={[tw('flex flex-row items-center justify-between my-2'), {}]}>
-                <Text style={tw('text-lg text-blue-500 ')}>Total Price</Text>
-                <Text style={tw('text-lg text-blue-500 ')}>€{Math.round(price * 100 / 100).toFixed(2)}</Text>
+                <Text style={tw('text-lg text-black ')}>Total Price</Text>
+                <Text style={tw('text-lg text-black ')}>€{Math.round(price * 100 / 100).toFixed(2)}</Text>
             </View> 
       </View>
     )

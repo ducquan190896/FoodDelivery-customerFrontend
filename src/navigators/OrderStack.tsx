@@ -3,6 +3,7 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import OrderDetailed from '../screens/OrderDetailed'
 import OrderListScreen from '../screens/OrderListScreen'
+import CompletedOrderDetailed from '../screens/CompletedOrderDetailed'
 
 
 export type OrderStackParamList = {
@@ -10,6 +11,9 @@ export type OrderStackParamList = {
     OrderDetailed: {
         orderID: number
     },
+    CompletedOrderDetailed: {
+      orderID: number
+    }
 }
 const stack = createNativeStackNavigator<OrderStackParamList>();
 
@@ -17,12 +21,13 @@ const stack = createNativeStackNavigator<OrderStackParamList>();
 const OrderStack = () => {
     return (
         <stack.Navigator
-          initialRouteName='OrderDetailed'
+          initialRouteName='OrderListScreen'
           screenOptions={{
             headerShown: false,
           }}>
             <stack.Screen name="OrderListScreen" component={OrderListScreen} />
             <stack.Screen name="OrderDetailed" component={OrderDetailed} />
+            <stack.Screen name="CompletedOrderDetailed" component={CompletedOrderDetailed} />
          
         </stack.Navigator>
       )

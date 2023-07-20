@@ -26,7 +26,7 @@ const DishComponent = ({dish, navigation, handlePressItem}: DishComponentProp) =
     <TouchableOpacity onPress={pressFunction} style={tw('w-full flex-row items-center justify-between border-b border-gray-200 my-2 pb-2 px-4')}>
       <View style={tw('flex items-start justify-start flex-1')}>
         <Text style={[tw(' font-bold mb-2 text-black'), {fontSize: 18}]}>{dish.name}</Text>
-        <Text style={tw(' mb-2 text-blue-500 font-bold')}>{Math.round(dish.price * 100 / 100).toFixed(2)} €</Text>
+        <Text style={tw(' mb-2 text-[#f7691a] font-bold')}>{Math.round(dish.price * 100 / 100).toFixed(2)} €</Text>
       </View>
       <Image source={{uri: dish?.imageurl ? dish?.imageurl : imageDefault}} style={[tw('rounded-md'), {height: 60, width: 80}]}></Image>
     </TouchableOpacity>

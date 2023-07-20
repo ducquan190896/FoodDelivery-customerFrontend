@@ -68,7 +68,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
                 payload: "token is null"
             });
         } else { 
-            const res = await axios.put(HOST_URL + "/api/users/changePassword", form, {
+            const res = await axios.put(HOST_URL + "/api/users/authUser/updatePassword", form, {
                 headers: {
                     "Authorization": token
                 }
@@ -78,6 +78,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
                 type: "Change_Password",
                 payload: data
             })
+            Alert.alert("Changed Password successfully"); 
         }
     } catch (err) {
         dispatch({
@@ -211,7 +212,40 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
         })
      }
   
-  }
+}
+
+export const updateProfileAction = (firstname?: string, surename?: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token : string | null = await AsyncStorage.getItem("token");  
+        let queryString = "";
+        if(firstname && firstname.length > 0) {
+            queryString += "firstname=" + firstname + "&";
+        }
+        if(surename && surename.length > 0) {
+            queryString += "surename=" + surename + "&"; 
+        }
+        
+        const res = await axios.put(HOST_URL + "/api/users/authUser/updateProfile?" + queryString, {}, {
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        const data = await res.data;
+        console.log(data);
+        dispatch({
+            type: "update_profile",
+            payload: data
+        })
+        Alert.alert("Updated successfully"); 
+    } catch (err) {
+        dispatch({
+            type: "USER_ERROR",
+            payload: err
+        })
+    }  
+ }
+
+ 
 
  export const ResetUser = () => (dispatch : Dispatch<ACTION>, getState: any) => {
      dispatch({

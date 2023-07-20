@@ -94,7 +94,7 @@ const CheckoutScreen = () => {
                   <TextInput value={address} placeholder="address" onChangeText={(text: string) => setAddress(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')}></TextInput>
                   <TextInput  value={zipcode}  placeholder="zipcode" onChangeText={(text: string) => setZipcode(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} ></TextInput>
                   <TextInput value={city} placeholder="city" onChangeText={(text: string) => setCity(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
-                  <Button  color="#6203fc" containerStyle={tw('w-full rounded-lg mb-6 mt-10')} size='lg' title='Place Order' onPress={submitFunction}></Button>
+                  <Button  color="#f7691a" containerStyle={tw('w-full rounded-lg mb-6 mt-10')} size='lg' title='Place Order' onPress={submitFunction}></Button>
                          
               </ScrollView>
           </TouchableWithoutFeedback>

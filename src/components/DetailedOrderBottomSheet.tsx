@@ -24,13 +24,18 @@ const DetailedOrderBottomSheet = ({order, orderDishes}: BottomSheetProp) => {
                 <Text style={tw('text-3xl font-bold text-black')}>Order Delivered</Text>
             </View>
         )}
-        {order?.status != ORDER_STATUS.COMPLETED && (
+        {order?.status == ORDER_STATUS.OWNER_REJECTED && (
+            <View style={tw('my-6 mx-auto')}>
+                <Text style={tw('text-3xl font-bold text-red-500')}>Order Declined</Text>
+            </View>
+        )}
+        {order?.status != ORDER_STATUS.COMPLETED && order?.status != ORDER_STATUS.OWNER_REJECTED && (
             <View style={tw('w-full my-4  items-start justify-center')}>
                 <View style={tw(' w-full flex-row items-start justify-center mb-4')}>
                     <Text style={tw('text-2xl font-bold text-black mr-8')}>Estimated Arrival: </Text>
                     <Text style={tw('text-2xl font-bold text-black')}>{estimatedTime.getHours()} : {estimatedTime.getMinutes()}</Text>
                 </View>
-                <DeliveryProgressingBar status={ORDER_STATUS.NEW}></DeliveryProgressingBar>
+                <DeliveryProgressingBar status={order.status}></DeliveryProgressingBar>
             </View>    
           )}
         <View style={tw('w-full my-2 bg-white py-2 px-4 flex items-start justify-start')}> 
@@ -48,15 +53,19 @@ const DetailedOrderBottomSheet = ({order, orderDishes}: BottomSheetProp) => {
         <View style={tw('w-full my-2 bg-white py-2 px-4 flex items-start justify-start mb-4')}> 
             <Text style={tw('text-2xl font-bold text-black mb-4')}>Order Summary</Text>
             {orderDishes?.length > 0 && orderDishes.map((orderDish: ORDERDISH, index: number) => <OrderDetailedItem key={index} orderDish={orderDish}></OrderDetailedItem>)}
-            <View style={[{width: "100%", height: 1}, tw('bg-gray-300 mb-4')]}></View>
-            <View style={tw('w-full flex-row items-center justify-between  my-2 px-4')}>
-                <Text style={[tw('text-black font-bold mr-4'), {fontSize: 18}]}>Delivery fee</Text>
-                <Text style={tw('text-black')}>{order?.deliveryFee?.toFixed(2)} €</Text>
-            </View>
-            <View style={tw('w-full flex-row items-center justify-between  my-2 pb-4 px-4')}>
-                <Text style={[tw('text-black font-bold mr-4'), {fontSize: 18}]}>Total</Text>
-                <Text style={tw('text-black')}>{order?.finalPrice?.toFixed(2)} €</Text>
-            </View>
+           {order?.status != ORDER_STATUS.OWNER_REJECTED && (
+            <>
+                 <View style={[{width: "100%", height: 1}, tw('bg-gray-300 mb-4')]}></View>
+                <View style={tw('w-full flex-row items-center justify-between  my-2 px-4')}>
+                    <Text style={[tw('text-black font-bold mr-4'), {fontSize: 18}]}>Delivery fee</Text>
+                    <Text style={tw('text-black')}>{order?.deliveryFee?.toFixed(2)} €</Text>
+                </View>
+                <View style={tw('w-full flex-row items-center justify-between  my-2 pb-4 px-4')}>
+                    <Text style={[tw('text-black font-bold mr-4'), {fontSize: 18}]}>Total</Text>
+                    <Text style={tw('text-black')}>{order?.finalPrice?.toFixed(2)} €</Text>
+                </View>
+            </>
+           )}
         </View>
       {/* </ScrollView> */}
     </View>

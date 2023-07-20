@@ -75,16 +75,16 @@ const DetailedRestaurantDishChoice = ({dish, basket, basketDishId, closeModal}: 
   return (
     <View style={[{width: width, position: "relative"}, tw('px-4')]}>
       <TouchableOpacity onPress={closeModal} style={[tw('absolute top-0 right-4 bg-gray-200 rounded-full items-center justify-center'), {width: 40, height: 40}]}>
-        <AntDesign name="down" size={26} color="black"></AntDesign>
+        <AntDesign name="down" size={26} color="#f7691a"></AntDesign>
       </TouchableOpacity>
-      <Text style={tw('text-3xl font-bold mb-2 text-black mt-10')}>{dish.name}</Text>
-      <Text style={tw('text-lg font-bold mb-2 text-blue-500')}>Price: {Math.round(dish.price * 100 / 100).toFixed(2)}</Text>
+      <Text style={tw('text-3xl font-bold mb-2 text-[#f7691a] mt-10')}>{dish.name}</Text>
+      <Text style={tw('text-lg font-bold mb-2 text-[#f7691a]')}>Price: {Math.round(dish.price * 100 / 100).toFixed(2)}</Text>
       <Text style={tw('text-lg mb-2 text-black')}>{dish.description}</Text>
       <View style={[{width: "100%", height: 1}, tw('bg-gray-300 my-6')]}></View>
       {quantity && !basketDish && (
         <View style={tw('flex flex-row items-center justify-center w-full')}>
                 <IncreaseDecreaseNumber currentNum={quantity} setCurrentNum={setQuantity}></IncreaseDecreaseNumber>
-                <TouchableOpacity onPress={addDishToBasket} style={tw('px-4 py-2 bg-blue-500 rounded-md ml-6')}>
+                <TouchableOpacity onPress={addDishToBasket} style={tw('px-4 py-2 bg-[#f7691a] rounded-md ml-6')}>
                     <Text style={tw('text-white text-lg')}>Add To Basket €{Math.round(dish.price * quantity * 100 / 100).toFixed(2)}</Text>
                 </TouchableOpacity>
         </View>
@@ -92,7 +92,7 @@ const DetailedRestaurantDishChoice = ({dish, basket, basketDishId, closeModal}: 
       {quantity && basketDish && (
         <View style={tw('flex flex-row items-center justify-center w-full')}>
                 <IncreaseDecreaseNumber currentNum={quantity} setCurrentNum={setQuantity}></IncreaseDecreaseNumber>
-                <TouchableOpacity onPress={updateBasket} style={tw('px-2 py-2 bg-blue-500 rounded-md ml-2')}>
+                <TouchableOpacity onPress={updateBasket} style={tw('px-2 py-2 bg-[#f7691a] rounded-md ml-2')}>
                     <Text style={tw('text-white text-lg')}>Update Basket €{Math.round(dish.price * quantity * 100 / 100).toFixed(2)}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={removeBasketDish} style={tw('px-2 py-2 bg-red-500 rounded-md ml-2')}>

@@ -24,19 +24,19 @@ const DetailedRestaurantHeader = ({navigation, restaurant}: HeaderProp) => {
        <View style={tw('relative')}>
             <Image source={{uri: restaurant?.imageurl ? restaurant?.imageurl : imageDefault}} style={[tw('mb-2'), {height: height/3, width: width}]}></Image>
             <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
-                <AntDesign name='arrowleft' size={26} color="black"></AntDesign>
+                <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
             </TouchableOpacity>
         </View>
         <View style={tw('px-4')}>
-            <Text style={tw('text-3xl font-bold text-black my-2')}>{restaurant?.name}</Text>
+            <Text style={tw('text-3xl font-bold text-[#f7691a] my-2')}>{restaurant?.name}</Text>
             <Text style={tw('text-lg text-black')}>{restaurant?.address}, {restaurant?.city} </Text>
             <View style={tw('flex flex-row items-center justify-start mt-6')}>
-                <Entypo name={restaurant?.rating > 4 ?  "emoji-flirt" : (restaurant?.rating > 3) ? "emoji-happy" : restaurant?.rating > 2 ? "emoji-neutral" : "emoji-sad"} size={24} color="black"></Entypo>
+                <Entypo name={restaurant?.rating > 4 ?  "emoji-flirt" : (restaurant?.rating > 3) ? "emoji-happy" : restaurant?.rating > 2 ? "emoji-neutral" : "emoji-sad"} size={24} color="#f7691a"></Entypo>
                 <Text style={tw('mx-2 ml-6 text-lg text-black')}>{(Math.round(restaurant?.rating * 100  / 100).toFixed(2))}</Text>
             </View>
             {restaurant?.estimatedTime && (
                 <View style={tw('flex flex-row items-center justify-start my-2 mb-8')}>
-                    <Ionicons name='bicycle' size={26} color="black"></Ionicons>
+                    <Ionicons name='bicycle' size={26} color="#f7691a"></Ionicons>
                     <Text style={tw('mx-2 ml-6 text-lg text-black')}>Delivery in {restaurant?.estimatedTime - 5} - {restaurant?.estimatedTime + 5} minutes</Text>
                 </View>
             )}

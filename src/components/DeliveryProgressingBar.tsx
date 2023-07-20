@@ -37,7 +37,7 @@ const DeliveryProgressingBar = ({status}: {status: ORDER_STATUS}) => {
       <Animated.View style={{ backgroundColor: "#46FF33", width: `${width}%`, borderRadius: 4}}/>
     </View>
     <View style={tw('flex w-full items-start justify-start')}>
-        <Text style={tw('text-lg font-bold text-black ml-8 mt-8')}>{description}</Text>
+        <Text style={tw('text-lg font-bold text-[#f7691a] ml-8 mt-8')}>{description}</Text>
     </View>
    </View>
   )

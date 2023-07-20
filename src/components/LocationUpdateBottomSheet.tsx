@@ -84,12 +84,12 @@ const LocationUpdateBottomSheet = ({expandModal, closeModal, setCurrentLocation}
         {!isAddress && (
             <>  
                 <TouchableOpacity onPress={updateCurrentLocation}  style={tw('my-4 flex-row w-full items-start justify-start rounded-full p-2 bg-white px-4')}>
-                    <Entypo name='location-pin' size={28} color="black"></Entypo>
-                    <Text style={tw('ml-4 text-lg font-bold text-blue-500')}>Your current Location</Text>
+                    <Entypo name='location-pin' size={28} color="#f7691a"></Entypo>
+                    <Text style={tw('ml-4 text-lg font-bold text-[#f7691a]')}>Your current Location</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={expandBottomSheetModal}  style={tw('my-4 flex-row w-full items-start justify-start rounded-full p-2 bg-white px-4')}>
-                    <FontAwesome5  name='search-location' size={28} color="black"></FontAwesome5 >
-                    <Text style={tw('ml-4 text-lg font-bold text-blue-500')}>Your current Location</Text>
+                    <FontAwesome5  name='search-location' size={28} color="#f7691a"></FontAwesome5 >
+                    <Text style={tw('ml-4 text-lg font-bold text-[#f7691a]')}>Add New Address</Text>
                 </TouchableOpacity>
             </>
         )}
@@ -98,7 +98,7 @@ const LocationUpdateBottomSheet = ({expandModal, closeModal, setCurrentLocation}
                  <TextInput value={address} placeholder="address" onChangeText={(text: string) => setAddress(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 mt-8 bg-white')}></TextInput>
                   <TextInput  value={zipcode}  placeholder="zipcode" onChangeText={(text: string) => setZipcode(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 bg-white')} ></TextInput>
                   <TextInput value={city} placeholder="city" onChangeText={(text: string) => setCity(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6 bg-white')} onSubmitEditing={updateByAddress}></TextInput>
-                  <Button  color="#6203fc" containerStyle={tw('w-full rounded-lg mb-6 mt-10')} size='lg' title='Update location' onPress={updateByAddress}></Button>
+                  <Button  color="#f7691a" containerStyle={tw('w-full rounded-lg mb-6 mt-10')} size='lg' title='Update location' onPress={updateByAddress}></Button>
             </>
         )}
     </View>

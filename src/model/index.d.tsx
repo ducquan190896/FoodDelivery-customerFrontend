@@ -40,7 +40,7 @@ export interface UserRegisterForm {
 }
 
 export interface CHANGEPASSWORD {
-    currentPassword: string,
+    password: string,
     newPassword: string,
     confirmPassword: string
 }
@@ -219,3 +219,6 @@ export interface declaredStateOrderDish  {
     orderDishError: boolean
 }
 
+export interface ImageData {
+    image: string
+}

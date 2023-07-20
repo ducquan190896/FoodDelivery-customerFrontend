@@ -122,7 +122,7 @@ const BasketScreen = () => {
                 </BottomSheetModal>
             </View>
             {basket && basket.total > 0 && (
-                <TouchableOpacity onPress={navigateToOrderScreen} style={[tw('absolute bg-blue-500 rounded-md items-center justify-center'), {bottom: 10, left: width/4, width: width / 2, height: 50}]}>
+                <TouchableOpacity onPress={navigateToOrderScreen} style={[tw('absolute bg-[#f7691a] rounded-md items-center justify-center'), {bottom: 10, left: width/4, width: width / 2, height: 50}]}>
                     <Text style={tw('text-white font-bold text-lg')}>Go Checkout</Text>
                 </TouchableOpacity>
             )}
