@@ -29,6 +29,21 @@
 			"top": 0
 		}
 	},
+	"left-2": {
+		"style": {
+			"left": 8
+		}
+	},
+	"left-6": {
+		"style": {
+			"left": 24
+		}
+	},
+	"top-2": {
+		"style": {
+			"top": 8
+		}
+	},
 	"mx-2": {
 		"style": {
 			"marginLeft": 8,
@@ -142,16 +157,6 @@
 	"mt-8": {
 		"style": {
 			"marginTop": 32
-		}
-	},
-	"mr-10": {
-		"style": {
-			"marginRight": 40
-		}
-	},
-	"mr-6": {
-		"style": {
-			"marginRight": 24
 		}
 	},
 	"block": {
@@ -425,6 +430,16 @@
 	"pb-4": {
 		"style": {
 			"paddingBottom": 16
+		}
+	},
+	"pl-4": {
+		"style": {
+			"paddingLeft": 16
+		}
+	},
+	"pl-8": {
+		"style": {
+			"paddingLeft": 32
 		}
 	},
 	"pt-2": {

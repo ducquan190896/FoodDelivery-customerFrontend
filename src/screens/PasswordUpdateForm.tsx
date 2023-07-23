@@ -59,7 +59,15 @@ const PasswordUpdateForm = () => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: true,
-            headerTitle: "Your Profile"
+            headerTitle: "Your Profile",
+            headerStyle: {
+                backgroundColor: 'white',
+            },
+            headerTitleStyle: {
+                fontWeight: 'bold',
+                color: "#f7691a"
+            },
+            headerTintColor: "#f7691a"
         })
     }, [navigation])
 

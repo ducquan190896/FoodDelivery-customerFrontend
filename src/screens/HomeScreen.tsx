@@ -78,6 +78,9 @@ const HomeScreen = () => {
   const navigateToMap = () => {
     navigation.navigate("MapRestaurants")
   }
+  const navigateToSearchEngine = () => {
+    navigation.navigate("SearchRestaurants")
+  }
 
   if(isLoading) {
     return <LoadingComponent/>
@@ -94,6 +97,9 @@ const HomeScreen = () => {
             ): (
               <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>{currentLocation}</Text>
             )}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateToSearchEngine} style={tw('mr-4')}>
+            <Entypo name='magnifying-glass' size={30} color="#f7691a"></Entypo>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToMap} style={tw('')}>
             <Entypo name='map' size={28} color="#f7691a"></Entypo>

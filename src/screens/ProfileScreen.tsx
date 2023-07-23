@@ -9,15 +9,16 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RestaurantStackParamList } from '../navigators/RestaurantStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import { HOST_URL, RootState } from '../store/store';
 import { RootStackParamList } from '../navigators/MainStack';
 import { PersonalStackParamList } from '../navigators/PersonalStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomTabProps } from '../navigators/BottomTabs';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
-import { getAuthUserAction } from '../store/actions/userAction';
+import { getAuthUserAction, updateImageProfileAction } from '../store/actions/userAction';
 import LoadingComponent from '../components/LoadingComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { uploadImageFunction } from '../utils/ImageUtil';
 
 
 
@@ -28,6 +29,7 @@ BottomTabNavigationProp<BottomTabProps>
 
 const ProfileScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [imageurl, setImageurl] = useState<string | null>(null);
     const navigation = useNavigation<ProfileScreenNavigationProp>();
     const tw = useTailwind();
     const { authUser, authError, authSuccess} = useSelector((state: RootState) => state.USERS);
@@ -38,9 +40,13 @@ const ProfileScreen = () => {
       }, []);
     
     useEffect(() => {
-        if(!authUser) {
-          setIsLoading(true);
-          loadAuthUser().then(() => setIsLoading(false));
+        setIsLoading(true);
+        loadAuthUser().then(() => setIsLoading(false));
+    }, [])
+    
+    useEffect(() => {
+        if(authUser && authUser?.imageurl) {
+            setImageurl(authUser?.imageurl);
         }
     }, [authUser])
 
@@ -52,6 +58,15 @@ const ProfileScreen = () => {
         navigation.navigate("PasswordUpdateForm")
     }
 
+    const addImage = async () => {
+        const image = await uploadImageFunction();
+        console.log("image:  " + image)
+        setImageurl(image);
+        if(image && image?.length > 0) {
+            dispatch(updateImageProfileAction(image) as any)
+        }
+    }
+
 
     if(isLoading) {
         return <LoadingComponent/>
@@ -61,10 +76,14 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView style={tw('flex-1 bg-white items-center justify-start pt-4 pb-2 px-2')}>
         <View style={[tw('w-full flex flex-row items-center justify-start px-4 my-2'), {marginBottom: 40}]}>
-            {authUser?.imageurl == null && (
-                <View style={tw('mr-8 bg-gray-200 rounded-full px-4 py-4')}>
+            {imageurl == null ? (
+                <TouchableOpacity onPress={addImage} style={tw('mr-8 bg-gray-200 rounded-full px-4 py-4')}>
                     <FontAwesome name='user' size={30} color={"#f7691a"}></FontAwesome>
-                </View>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity onPress={addImage} style={[tw('rounded-full border-2'), { marginRight: 20, borderColor: "#f7691a"}]}>
+                    <Image source={{uri: HOST_URL + "/api/images/image/" + imageurl}} style={[tw('rounded-full'), {height: 100, width: 100, objectFit: "cover",}]}></Image>
+                </TouchableOpacity>
             )}
             <Text style={tw('my-2 text-2xl text-[#f7691a] font-bold')}>{authUser?.firstname?.toUpperCase()} {authUser?.surename?.toUpperCase()}</Text>
         </View>

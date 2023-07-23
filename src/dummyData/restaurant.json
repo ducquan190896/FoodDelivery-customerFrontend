@@ -11,9 +11,10 @@
         "longitude": 25.4723617,
         "rating": 3.0,
         "cookingTime": 20,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 1.14844527232364
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.9541577498509195,
+        "estimatedTime": 45
     },
     {
         "id": 2,
@@ -27,9 +28,10 @@
         "longitude": 25.4962,
         "rating": 4.0,
         "cookingTime": 30,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 0.0
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.81100622123588,
+        "estimatedTime": 54
     },
     {
         "id": 3,
@@ -43,9 +45,10 @@
         "longitude": 25.466887,
         "rating": 4.0,
         "cookingTime": 10,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 1.3914742137029752
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.91128367113288,
+        "estimatedTime": 35
     },
     {
         "id": 4,
@@ -59,9 +62,10 @@
         "longitude": 25.4475889,
         "rating": 3.5,
         "cookingTime": 10,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 7.346941497671654
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 2.602234721988298,
+        "estimatedTime": 23
     },
     {
         "id": 5,
@@ -75,9 +79,10 @@
         "longitude": 25.4839302,
         "rating": 3.5,
         "cookingTime": 10,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 0.6374409196401595
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.991713082502802,
+        "estimatedTime": 35
     },
     {
         "id": 6,
@@ -91,9 +96,10 @@
         "longitude": 25.473371505737305,
         "rating": 3.5,
         "cookingTime": 20,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 1.109866872992902
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.984643475086952,
+        "estimatedTime": 45
     },
     {
         "id": 7,
@@ -107,9 +113,10 @@
         "longitude": 25.473371505737305,
         "rating": 3.5,
         "cookingTime": 20,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 1.109866872992902
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.984643475086952,
+        "estimatedTime": 45
     },
     {
         "id": 8,
@@ -123,8 +130,9 @@
         "longitude": 25.473371505737305,
         "rating": 3.5,
         "cookingTime": 20,
-        "createdDate": "2023-07-16 07:40",
-        "updatedDate": "2023-07-16 07:40",
-        "distance": 1.109866872992902
+        "createdDate": "2023-07-23 20:58",
+        "updatedDate": "2023-07-23 20:58",
+        "distance": 4.984643475086952,
+        "estimatedTime": 45
     }
 ]

@@ -6,6 +6,7 @@ import DetailRestaurant from '../screens/DetailRestaurant'
 import BasketScreen from '../screens/BasketScreen'
 import CheckoutScreen from '../screens/CheckoutScreen'
 import MapRestaurants from '../screens/MapRestaurants'
+import SearchRestaurants from '../screens/SearchRestaurants'
 
 export type RestaurantStackParamList = {
   HomeScreen: undefined,
@@ -19,7 +20,8 @@ export type RestaurantStackParamList = {
   CheckoutScreen: {
     basketId: number
   },
-  MapRestaurants: undefined
+  MapRestaurants: undefined,
+  SearchRestaurants: undefined
 }
 const stack = createNativeStackNavigator<RestaurantStackParamList>();
 
@@ -35,6 +37,7 @@ const RestaurantStack = () => {
       <stack.Screen name="BasketScreen" component={BasketScreen} />
       <stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
       <stack.Screen name="MapRestaurants" component={MapRestaurants} />
+      <stack.Screen name="SearchRestaurants" component={SearchRestaurants} />
     </stack.Navigator>
   )
 }

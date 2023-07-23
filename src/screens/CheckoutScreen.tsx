@@ -81,12 +81,27 @@ const CheckoutScreen = () => {
       }
   }
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+        headerShown: true,
+        headerTitle: "Your Basket",
+        headerStyle: {
+            backgroundColor: 'white',
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold',
+            color: "#f7691a"
+        },
+        headerTintColor: "#f7691a"
+    })
+  }, [navigation])
+
 
   return (
     <KeyboardAvoidingView style={tw('flex-1 bg-white')}>
           <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss}>
               <ScrollView style={tw('flex-1  px-4')}>     
-                  <Text style={tw('text-black mx-auto text-3xl mt-10 mb-10')}>Check Out</Text>    
+                  <Text style={tw('text-[#f7691a] mx-auto text-3xl mt-10 mb-10')}>Check Out</Text>    
                   <View style={tw('w-full')}>
                     <Text style={tw('text-black ml-2 mb-2')}>Leave note for courier (optionally)</Text>        
                     <TextInput value={note} placeholder="note" onChangeText={(text: string) => setNote(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')}></TextInput>  
