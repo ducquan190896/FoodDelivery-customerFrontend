@@ -24,16 +24,18 @@ const DishComponent = ({dish, navigation, handlePressItem}: DishComponentProp) =
     const image = dish?.imageurl == null ? imageDefault : dish?.imageurl &&  dish?.imageurl?.startsWith("https") ? dish.imageurl : HOST_URL + "/api/images/image/" + dish.imageurl;
 
   return (
-    <TouchableOpacity onPress={pressFunction} disabled={dish.availability == true ? false : true} style={[tw('w-full flex-row items-center justify-between border-b border-gray-200 my-2 mb-2 pl-4'), {backgroundColor: dish.availability ? "white" : "#a1a1aa"}]}>
-      <View style={tw('flex items-start justify-start flex-1')}>
-        <Text style={[tw(' font-bold mb-2 text-black'), {fontSize: 18}]}>{dish.name}</Text>
-        <Text style={[tw(' mb-2 text-[#f7691a] font-bold'), {color: dish.availability ? "#f7691a" : "black"}]}>{Math.round(dish.price * 100 / 100).toFixed(2)} €</Text>
-        {!dish.availability && (
-          <Text style={[tw(' font-bold text-black'), {fontSize: 18}]}>Unsold</Text>
-        )}
-      </View>
-      <Image source={{uri: image}} style={[tw('rounded-md'), {height: 100, width: 120}]}></Image>
-    </TouchableOpacity>
+    <View style={tw('px-2')}>
+      <TouchableOpacity onPress={pressFunction} disabled={dish.availability == true ? false : true} style={[tw('rounded-md w-full flex-row items-center justify-between border-b border-gray-200 my-2 mb-2 pl-4'), {backgroundColor: dish.availability ? "white" : "#a1a1aa"}]}>
+        <View style={tw('flex items-start justify-start flex-1')}>
+          <Text style={[tw(' font-bold mb-2 text-black'), {fontSize: 18}]}>{dish.name}</Text>
+          <Text style={[tw(' mb-2 text-[#f7691a] font-bold'), {color: dish.availability ? "#f7691a" : "black"}]}>{Math.round(dish.price * 100 / 100).toFixed(2)} €</Text>
+          {!dish.availability && (
+            <Text style={[tw(' font-bold text-black'), {fontSize: 18}]}>Unsold</Text>
+          )}
+        </View>
+        <Image source={{uri: image}} style={[tw('rounded-md'), {height: 100, width: 120}]}></Image>
+      </TouchableOpacity>    
+    </View>
   )
 }
 

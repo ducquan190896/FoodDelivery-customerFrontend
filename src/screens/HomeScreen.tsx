@@ -31,11 +31,12 @@ const HomeScreen = () => {
   const tw = useTailwind();
   const {restaurants, restaurantError, restaurantSuccess} = useSelector((state: RootState) => state.RESTAURANTS);
   const { authUser, authError, authSuccess} = useSelector((state: RootState) => state.USERS);
+  const {customLocation, customer, isCustomLocation} = useSelector((state: RootState) => state.CUSTOMERS);
   const dispatch = useDispatch();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPonits = useMemo(() => ['3', '25', '60'], [])
   const width = useWindowDimensions().width;
-  const [currentLocation, setCurrentLocation] = useState<string | null>(null);
+  // const [currentLocation, setCurrentLocation] = useState<string | null>(null);
 
   const handleSheetChange = useCallback((index: any) => {
       console.log(index)
@@ -61,12 +62,12 @@ const HomeScreen = () => {
     setIsRefreshing(true);
     await dispatch(recommendedRestaurantsAction() as any);
     setIsRefreshing(false);
-  }, [authUser, restaurants]);
+  }, [authUser, restaurants, customLocation, isCustomLocation]);
 
   useEffect(() => {
     setIsLoading(true);
     loadRecommendedRestaurants().then(() => setIsLoading(false));
-  }, [authUser])
+  }, [authUser, customLocation, isCustomLocation])
 
 
   const handleRenderItem: ListRenderItem<any> = ({item}: {item: RESTAURANT}) => {
@@ -86,16 +87,28 @@ const HomeScreen = () => {
     return <LoadingComponent/>
   }
 
+  // if( restaurants?.length <= 0) {
+  //   return (
+  //     <SafeAreaView style={tw('flex-1 items-center justify-center bg-white ')}>
+  //       <Text style={tw('font-bold text-lg text-[#f7691a]')}>your address is not close to any restaurants</Text>
+  //     </SafeAreaView>
+  //   )
+  // }
+
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={tw('flex-1 bg-gray-100 bg-white')}>
         <View style={tw('flex flex-row justify-between items-center w-full px-2 mt-2')}>
           <TouchableOpacity onPress={handlePresentModalPress} style={tw('flex flex-row justify-start items-start flex-1')}>
             <Entypo name='location-pin' size={40} color="#f7691a"></Entypo>
-            {!currentLocation ? (
+            {!isCustomLocation ? (
               <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>Restaurants near you</Text>
             ): (
-              <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>{currentLocation}</Text>
+              <>
+                {customLocation && (
+                   <Text style={[tw('text-lg font-bold text-[#f7691a] my-2 ml-4'), {fontFamily: "Segoe UI"}]}>{customLocation?.address}, {customLocation?.zipcode} {customLocation?.city}</Text>
+                )}
+              </>
             )}
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToSearchEngine} style={tw('mr-4')}>
@@ -125,7 +138,7 @@ const HomeScreen = () => {
                       onDismiss={() => console.log("close bottomsheet")}
                   >
                       <View style={styles.contentContainer}>
-                        <LocationUpdateBottomSheet expandModal={handleExpandModalPress} closeModal={handleDismissModalPress} setCurrentLocation={setCurrentLocation}></LocationUpdateBottomSheet>
+                        <LocationUpdateBottomSheet expandModal={handleExpandModalPress} closeModal={handleDismissModalPress}></LocationUpdateBottomSheet>
                       </View>
                   </BottomSheetModal>
         </View>

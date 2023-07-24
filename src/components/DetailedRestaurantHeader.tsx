@@ -26,9 +26,9 @@ const DetailedRestaurantHeader = ({navigation, restaurant}: HeaderProp) => {
     <View>
        <View style={tw('relative')}>
             <Image source={{uri: restaurant?.imageurl ? restaurant?.imageurl : imageDefault}} style={[tw('mb-2'), {height: height/3, width: width}]}></Image>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
+            {/* <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
                 <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
         <View style={tw('px-4')}>
             <Text style={tw('text-3xl font-bold text-[#f7691a] my-2')}>{restaurant?.name}</Text>
@@ -44,7 +44,7 @@ const DetailedRestaurantHeader = ({navigation, restaurant}: HeaderProp) => {
                 </View>
             )}
             {restaurant?.distance && (
-                <View style={tw('flex flex-row items-center justify-start my-2 mb-8')}>
+                <View style={tw('flex flex-row items-center justify-start my-2 mb-4')}>
                     <FontAwesome name='location-arrow' size={26} color="#f7691a"></FontAwesome>
                     <Text style={tw('mx-2 ml-6 text-lg text-black')}>{restaurant?.distance.toFixed(2)} km</Text>
                 </View>

@@ -11,6 +11,8 @@ import { RootState } from '../store/store'
 import { ResetUser, login } from '../store/actions/userAction'
 import Geolocation from 'react-native-geolocation-service';
 import { requestLocationPermission } from '../utils/GeolocationPermission'
+import { getLocation } from '../utils/GetLocationFromDevice'
+import { resetCustomLocationAction } from '../store/actions/CustomerAction'
 
 const LoginScreen = () => {
     const [username, setUsername] = useState<string>("")
@@ -24,31 +26,11 @@ const LoginScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
 
-    const getLocation = () => {
-        const result = requestLocationPermission();
-        result.then(res => {
-          console.log('res is:', res);
-          if (res) {
-            Geolocation.getCurrentPosition(
-              (position : Geolocation.GeoPosition) => {
-                console.log(position);
-                setLocation(position);
-              },
-              error => {
-                // See error code charts below.
-                console.log(error.code, error.message);
-                setLocation(null);
-              },
-              {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-            );
-          }
-        });
-        console.log(location);
-    };
-
     useEffect(() => {
-        getLocation();
+      dispatch(resetCustomLocationAction() as any);
+      getLocation(setLocation);
     }, [])
+    
     useEffect(() => {
       if(authSuccess) {
         navigation.navigate('BottomTabs')
@@ -58,9 +40,11 @@ const LoginScreen = () => {
 
     const submitFunction = async () => {
         console.log("login")
-        if(username && username.length > 0 && password && password.length > 0 && location) {
-            const longitude = location?.coords?.longitude;
-            const latitude = location?.coords?.latitude;
+        if(username && username.length > 0 && password && password.length > 0, location) {
+            // const newLocation : any = await getLocation();
+            const longitude =  location?.coords?.longitude;
+            const latitude =  location?.coords?.latitude;
+            dispatch(resetCustomLocationAction() as any);
             await  dispatch(login({username, password, longitude, latitude}) as any)
             console.log(username + " : " + password)
             setUsername("")

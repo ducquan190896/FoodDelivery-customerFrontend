@@ -109,6 +109,9 @@ const DetailRestaurant = () => {
   return (
     <BottomSheetModalProvider>
         <View style={tw('flex-1 relative')}>
+             <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
+                <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
+            </TouchableOpacity>
             <FlatList
                 ListHeaderComponent={() => <DetailedRestaurantHeader navigation={navigation} restaurant={restaurant}></DetailedRestaurantHeader>}
                 refreshing={isrefreshing}

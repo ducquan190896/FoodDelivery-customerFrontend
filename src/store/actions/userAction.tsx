@@ -14,6 +14,7 @@ export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
             longitude,
             latitude
         });
+        console.log(`longitude ${longitude} , latitude ${latitude}`);
  
         const data = res.data
         console.log(res.data)
@@ -109,6 +110,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
                type: "update_coordinate",
                payload: data
             })
+            console.log(data);
             console.log(`longitude ${longitude} , latitude ${latitude}`);
        }
     } catch (err) {
@@ -140,6 +142,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
                type: "update_textAddress",
                payload: data
             })
+            console.log(data);
             console.log(`address ${address}, zipcode ${zipcode} city ${city}`);
        }
     } catch (err) {

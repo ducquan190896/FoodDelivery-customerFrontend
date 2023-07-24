@@ -96,6 +96,9 @@ const BasketScreen = () => {
   return (
     <BottomSheetModalProvider>
         <View style={tw('flex-1 relative bg-white')}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 30, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center bg-gray-300')]}>
+                <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
+            </TouchableOpacity>
            {restaurant && basketDishes?.length > 0 && basket && (
                 <FlatList
                     ListHeaderComponent={() => <BasketScreenHeader navigation={navigation} restaurant={restaurant}></BasketScreenHeader>}

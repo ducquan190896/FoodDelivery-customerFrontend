@@ -19,6 +19,11 @@
 			"position": "relative"
 		}
 	},
+	"left-6": {
+		"style": {
+			"left": 24
+		}
+	},
 	"right-4": {
 		"style": {
 			"right": 16
@@ -27,16 +32,6 @@
 	"top-0": {
 		"style": {
 			"top": 0
-		}
-	},
-	"left-2": {
-		"style": {
-			"left": 8
-		}
-	},
-	"left-6": {
-		"style": {
-			"left": 24
 		}
 	},
 	"top-2": {
@@ -92,11 +87,6 @@
 	"mb-6": {
 		"style": {
 			"marginBottom": 24
-		}
-	},
-	"mb-8": {
-		"style": {
-			"marginBottom": 32
 		}
 	},
 	"ml-2": {
@@ -384,6 +374,12 @@
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-gray-400": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(156 163 175 / var(--tw-bg-opacity))"
+		}
+	},
 	"p-2": {
 		"style": {
 			"paddingTop": 8,
@@ -435,11 +431,6 @@
 	"pl-4": {
 		"style": {
 			"paddingLeft": 16
-		}
-	},
-	"pl-8": {
-		"style": {
-			"paddingLeft": 32
 		}
 	},
 	"pt-2": {

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Dispatch } from "react";
 import { HOST_URL } from "../store";
 import axios from "axios";
-import { ACTION, CHANGEPASSWORD, LoginForm,  UserRegisterForm } from "../../model/index.d";
+import { ACTION, CHANGEPASSWORD, CUSTOMLOCATION, LoginForm,  UserRegisterForm } from "../../model/index.d";
 import { Alert } from 'react-native'
 
 export const customerByIdAction = (customerId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
@@ -71,6 +71,25 @@ export const authenticatedCustomerAction = () => async (dispatch: Dispatch<ACTIO
             payload: "loading customer failed"
         });
     }
+}
+
+export const addCustomerLocationAction = (location: CUSTOMLOCATION) => (dispatch : Dispatch<ACTION>, getState: any) => {
+    dispatch({
+        type: "customer_add_customLocation",
+        payload: location
+    })
+}
+
+export const useCurrentLocationAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {
+    dispatch({
+        type: "customer_use_currentLocation"
+    })
+}
+
+export const resetCustomLocationAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {
+    dispatch({
+        type: "customer_reset_customLocation"
+    })
 }
 
 export const resetCustomerAction = () => (dispatch : Dispatch<ACTION>, getState: any) => {

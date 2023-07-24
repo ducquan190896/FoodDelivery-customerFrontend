@@ -16,11 +16,11 @@ const BasketScreenHeader = ({navigation, restaurant} : HeaderBasketScreenProp) =
   const height = useWindowDimensions().height;
 
   return (
-    <View style={[tw('px-4'), {width: width}]}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={[{ height: 40, width: 40, zIndex: 10}, tw('bg-gray-300 rounded-full  items-center justify-center mt-2')]}>
+    <View style={[tw('px-4 mt-4'), {width: width}]}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()} style={[{ height: 40, width: 40, zIndex: 10}, tw('bg-gray-300 rounded-full  items-center justify-center mt-2')]}>
             <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
-        </TouchableOpacity>
-        <Text style={tw('text-3xl font-bold text-[#f7691a] my-4')}>{restaurant?.name}</Text>
+        </TouchableOpacity> */}
+        <Text style={tw('text-3xl font-bold text-[#f7691a] my-4 mx-auto')}>{restaurant?.name}</Text>
         <Text style={tw('text-lg font-bold text-black my-4')}>Your items</Text>
     </View>
   )

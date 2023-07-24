@@ -4,7 +4,9 @@ const initialState = {
     customer: {},
     message: null,
     customerSuccess: false,
-    customerError: false
+    customerError: false,
+    customLocation: null,
+    isCustomLocation: false
 }
 
 export default (state:  declaredStateCustomer = initialState, action: ACTION) => {
@@ -19,6 +21,26 @@ export default (state:  declaredStateCustomer = initialState, action: ACTION) =>
             return {
                 ...state,
                 customer: action.payload,
+                customerSuccess: true
+            }
+        case "customer_add_customLocation":
+            return {
+                ...state,
+                customLocation: action.payload,
+                isCustomLocation: true,
+                customerSuccess: true
+            }
+        case "customer_reset_customLocation":
+            return {
+                ...state,
+                customLocation: null,
+                isCustomLocation: false,
+                customerSuccess: true
+            }
+        case "customer_use_currentLocation":
+            return {
+                ...state,
+                isCustomLocation: false,
                 customerSuccess: true
             }
         case "customer_error":

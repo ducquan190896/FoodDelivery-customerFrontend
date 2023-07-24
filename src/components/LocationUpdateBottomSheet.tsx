@@ -11,15 +11,20 @@ import { Button } from '@rneui/base';
 import { requestLocationPermission } from '../utils/GeolocationPermission';
 import Geolocation from 'react-native-geolocation-service';
 import { updateCoordinateAction, updateTextAddressAction } from '../store/actions/userAction';
+import { getLocation } from '../utils/GetLocationFromDevice';
+import { addCustomerLocationAction, resetCustomLocationAction, useCurrentLocationAction } from '../store/actions/CustomerAction';
+import { CUSTOMLOCATION } from '../model/index.d';
+import { recommendedRestaurantsAction } from '../store/actions/RestaurantAction';
 
 type BottomSheetProp = {
     expandModal: () => void,
     closeModal: () => void,
-    setCurrentLocation: React.Dispatch<React.SetStateAction<string | null>>
+    // setCurrentLocation: React.Dispatch<React.SetStateAction<string | null>>
 }
 
-const LocationUpdateBottomSheet = ({expandModal, closeModal, setCurrentLocation}: BottomSheetProp) => {
+const LocationUpdateBottomSheet = ({expandModal, closeModal}: BottomSheetProp) => {
     const { authUser, authError, authSuccess} = useSelector((state: RootState) => state.USERS);
+    const {customLocation, customer, isCustomLocation} = useSelector((state: RootState) => state.CUSTOMERS);
     const dispatch = useDispatch();
     const tw = useTailwind();
     const navigation = useNavigation<MainHomeNavigationProp>();
@@ -29,46 +34,34 @@ const LocationUpdateBottomSheet = ({expandModal, closeModal, setCurrentLocation}
     const [city, setCity] = useState<string>("");
     const [location, setLocation] = useState<Geolocation.GeoPosition | null>();
 
-    const getLocation = () => {
-        const result = requestLocationPermission();
-        result.then(res => {
-          console.log('res is:', res);
-          if (res) {
-            Geolocation.getCurrentPosition(
-              (position : Geolocation.GeoPosition) => {
-                console.log(position);
-                setLocation(position);
-              },
-              error => {
-                // See error code charts below.
-                console.log(error.code, error.message);
-                setLocation(null);
-              },
-              {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-            );
-          }
-        });
-        console.log(location);
-    };
 
     useEffect(() => {
-        getLocation();
-    }, [])
+        getLocation(setLocation)
+    }, [customLocation, isCustomLocation])
 
     const updateCurrentLocation = async () => {
         if(location) {
-            const longitude = location?.coords?.longitude;
-            const latitude = location?.coords?.latitude;
-            dispatch(updateCoordinateAction(longitude, latitude) as any);
+            const longitude = location.coords?.longitude;
+            const latitude = location.coords?.latitude;
+            console.log("update currentLocation : longitude " + longitude + " , latitude " + latitude);
+            dispatch(resetCustomLocationAction() as any);
+            await dispatch(updateCoordinateAction(longitude, latitude) as any);
+            dispatch(useCurrentLocationAction() as any);
             closeModal();
         }
     };
 
     const updateByAddress = async () => {
         if(city?.length > 0 && address?.length > 0 && zipcode?.length > 0) {
-            dispatch(updateTextAddressAction(address, zipcode, city) as any);
+            const newLocation: CUSTOMLOCATION = {
+                address,
+                zipcode,
+                city
+            }
+            dispatch(resetCustomLocationAction() as any);
+            await dispatch(updateTextAddressAction(address, zipcode, city) as any);
+            dispatch(addCustomerLocationAction(newLocation) as any);
             setIsAddress(prev => !prev);
-            setCurrentLocation(`${address}, ${zipcode} ${city}`);
             closeModal();
         }
     };

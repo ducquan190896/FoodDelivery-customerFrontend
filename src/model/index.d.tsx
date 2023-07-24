@@ -127,11 +127,19 @@ export interface CUSTOMER {
     user: USER
 }
 
+export interface CUSTOMLOCATION {
+    address: string,
+    zipcode: string,
+    city: string
+}
+
 export interface declaredStateCustomer  {
     customer: CUSTOMER | {},
     message: string | null,
     customerSuccess: boolean,
-    customerError: boolean
+    customerError: boolean,
+    customLocation: CUSTOMLOCATION | null,
+    isCustomLocation: boolean
 }
 
 export enum AVAILABLE {

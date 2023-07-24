@@ -14,6 +14,7 @@ import { recommendedRestaurantsAction } from '../store/actions/RestaurantAction'
 import LoadingComponent from '../components/LoadingComponent';
 import { RESTAURANT } from '../model/index.d';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import RestaurantCard from '../components/RestaurantCard';
 import BottomSheet, {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet"
 import LocationUpdateBottomSheet from '../components/LocationUpdateBottomSheet';
@@ -25,6 +26,7 @@ NativeStackNavigationProp<RestaurantStackParamList, "SearchRestaurants">,
 BottomTabNavigationProp<BottomTabProps>
 >;
 
+
 const SearchRestaurants = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isrefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -35,6 +37,7 @@ const SearchRestaurants = () => {
     const dispatch = useDispatch();
     const [filterRestaurants, setFilterRestaurants] = useState<RESTAURANT[] | []>([])
     const [keyword, setKeyword] = useState<string>("");
+    const width = useWindowDimensions().width;
 
     const loadRecommendedRestaurants = useCallback(async () => {
         setIsRefreshing(true);
@@ -56,23 +59,7 @@ const SearchRestaurants = () => {
         if(keyword.length > 0) {
             setFilterRestaurants(restaurants.filter((res: RESTAURANT) => res.name.includes(keyword.toLowerCase())));
         }
-      }, [keyword])
-
-      useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: true,
-            headerTitle: "Main Screen",
-            headerStyle: {
-                backgroundColor: 'white',
-            },
-            headerTitleStyle: {
-                fontWeight: 'bold',
-                color: "#f7691a"
-            },
-            headerTintColor: "#f7691a"
-        })
-      }, [navigation])
-    
+      }, [keyword])    
     
       const handleRenderItem: ListRenderItem<any> = ({item}: {item: RESTAURANT}) => {
         return (
@@ -83,11 +70,14 @@ const SearchRestaurants = () => {
   return (
     <SafeAreaView style={tw('flex-1 bg-gray-100 bg-white')}>
         <View style={[tw('flex-1 items-center justify-center w-full h-full ')]}>
-            <View style={tw('w-full my-2 relative px-4')}>
-                <View style={[tw('absolute top-2 left-6'), {zIndex: 10}]}>
+            <View style={tw('w-full my-2 relative px-4 flex-row items-center')}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={[{ height: 40, width: 40, zIndex: 10}, tw('bg-gray-200 rounded-full items-center justify-center mr-2')]}>
+                    <AntDesign name='arrowleft' size={30} color="#f7691a"></AntDesign>
+                </TouchableOpacity>
+                <View style={[tw('absolute top-2'), {zIndex: 10, left: 70}]}>
                     <Entypo name='magnifying-glass' size={30} color="#f7691a"></Entypo>
                 </View>
-                <TextInput value={keyword} onChangeText={setKeyword} placeholder='restaurant name' style={[tw('w-full py-2 bg-gray-200 rounded-full text-black text-lg'), {paddingLeft: 50}]}></TextInput>
+                <TextInput value={keyword} onChangeText={setKeyword} placeholder='restaurant name' style={[tw(' py-2 bg-gray-200 rounded-full text-black text-lg'), {paddingLeft: 50, width: width - 70}]}></TextInput>
             </View>
             {filterRestaurants && filterRestaurants.length > 0 && (
                 <FlatList 

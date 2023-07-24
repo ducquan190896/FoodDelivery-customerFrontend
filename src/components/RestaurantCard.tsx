@@ -6,6 +6,7 @@ import { MainHomeNavigationProp } from '../screens/HomeScreen';
 import { HOST_URL } from '../store/store';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RatingSmiling from './RatingSmiling';
+import { SearchRestaurantsNavigationProp } from '../screens/SearchRestaurants';
 
 const imageDefault = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80";
 
@@ -26,7 +27,7 @@ const DishCard = ({restaurant, navigation}: DishCardProp) => {
     }
 
   return (
-    <TouchableOpacity onPress={navigateToDetailedRestaurant} style={[{width: width - 20}, tw('my-2 mx-auto')]}>
+    <TouchableOpacity onPress={navigateToDetailedRestaurant} style={[{width: width - 20}, tw('my-2 mx-auto'), ]}>
         <View  style={[tw('bg-white rounded-md mx-2 my-2 border border-2 border-gray-200 pb-2'), ]}>
             {/* <Image source={{uri: restaurant?.imageurl ? HOST_URL + "/api/images/image/" +  restaurant?.imageurl : imageDefault}} style={[tw('w-full rounded-md'), {height: 170}]}></Image> */}
             <Image source={{uri: image}} style={[tw('w-full rounded-md'), {height: height/4}]}></Image>
@@ -54,4 +55,15 @@ const DishCard = ({restaurant, navigation}: DishCardProp) => {
 
 export default DishCard
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    shadowCard: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 13.46,
+        elevation: 20,
+    }
+})
