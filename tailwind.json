@@ -19,11 +19,6 @@
 			"position": "relative"
 		}
 	},
-	"left-6": {
-		"style": {
-			"left": 24
-		}
-	},
 	"right-4": {
 		"style": {
 			"right": 16
@@ -374,12 +369,6 @@
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
 		}
 	},
-	"bg-gray-400": {
-		"style": {
-			"--tw-bg-opacity": 1,
-			"backgroundColor": "rgb(156 163 175 / var(--tw-bg-opacity))"
-		}
-	},
 	"p-2": {
 		"style": {
 			"paddingTop": 8,
@@ -416,6 +405,12 @@
 		"style": {
 			"paddingTop": 16,
 			"paddingBottom": 16
+		}
+	},
+	"px-6": {
+		"style": {
+			"paddingLeft": 24,
+			"paddingRight": 24
 		}
 	},
 	"pb-2": {

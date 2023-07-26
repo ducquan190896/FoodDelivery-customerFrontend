@@ -31,7 +31,7 @@ export default (state:  declaredStateOrder= initialState, action: ACTION) => {
          case "order_update_from_websocket_Subscription":
             return {
                 ...state,
-                // order: action.payload,
+                order: action.payload,
                 orders: state.orders.map((item: ORDER) => item.id == action.payload.id ? action.payload : item),
                 orderSuccess: true
             }

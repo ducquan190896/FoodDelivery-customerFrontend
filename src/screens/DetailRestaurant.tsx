@@ -20,6 +20,8 @@ import BottomSheet, {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/b
 import DetailedRestaurantHeader from '../components/DetailedRestaurantHeader';
 import DetailedRestaurantDishChoice from '../components/DetailedRestaurantDishChoice';
 import { basketByAuthUserAndRestaurantAction, resetBasketAction } from '../store/actions/BasketAction';
+import { checkReviewByRestaurantAndAuthUserAction } from '../store/actions/ReviewAction';
+import ReviewForm from '../components/ReviewForm';
 
 const imageDefault = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80";
 
@@ -34,6 +36,8 @@ const DetailRestaurant = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isrefreshing, setIsRefreshing] = useState<boolean>(false);
     const [food, setFood] = useState<DISH | null>(null);
+    const [reviewExist, setReviewExist] = useState<boolean>(false);
+    const [addReview, setAddReview] = useState<boolean>(false);
     const navigation = useNavigation<DetailRestaurantNavigationProp>();
     const tw = useTailwind();
     const {restaurant, restaurantError, restaurantSuccess} = useSelector((state: RootState) => state.RESTAURANTS);
@@ -55,9 +59,18 @@ const DetailRestaurant = () => {
         setFood(item);
     }, []);
 
+    const handlePresentReviewFormPress = useCallback(() => {
+        bottomSheetModalRef.current?.present();
+    }, []);
+
     const handleDismissModalPress = useCallback(() => {
         bottomSheetModalRef.current?.dismiss();
         setFood(null);
+    }, []);
+
+    const handleDismissReviewFormPress = useCallback(() => {
+        bottomSheetModalRef.current?.dismiss();
+        setAddReview(false);
     }, []);
 
 
@@ -79,6 +92,12 @@ const DetailRestaurant = () => {
         setIsRefreshing(false);
     }, [authUser, restaurant]);
 
+
+    const loadReviewForAuthCustomer = useCallback(async () => {
+        const isReviewed = await checkReviewByRestaurantAndAuthUserAction(restaurantId);
+        setReviewExist(isReviewed ?? false);
+    }, [restaurantId])
+
     const handleRenderItem: ListRenderItem<any> = ({item}: {item: DISH}) => {
         return (
            <DishComponent handlePressItem={() => handlePresentModalPress(item)} navigation={navigation} dish={item}></DishComponent>
@@ -87,6 +106,7 @@ const DetailRestaurant = () => {
     
     useEffect(() => {
         setIsLoading(true);
+        loadReviewForAuthCustomer();
         loadRestaurant();
         loadBasket();
     }, [authUser, restaurantId])
@@ -108,12 +128,12 @@ const DetailRestaurant = () => {
 
   return (
     <BottomSheetModalProvider>
-        <View style={tw('flex-1 relative')}>
+        <View style={tw('flex-1 relative bg-gray-100')}>
              <TouchableOpacity onPress={() => navigation.goBack()} style={[{top: 10, left: 10, height: 40, width: 40, zIndex: 10}, tw('bg-white rounded-full absolute items-center justify-center')]}>
                 <AntDesign name='arrowleft' size={26} color="#f7691a"></AntDesign>
             </TouchableOpacity>
             <FlatList
-                ListHeaderComponent={() => <DetailedRestaurantHeader navigation={navigation} restaurant={restaurant}></DetailedRestaurantHeader>}
+                ListHeaderComponent={() => <DetailedRestaurantHeader restaurant={restaurant} reviewExist={reviewExist} setAddReview={setAddReview} showReviewForm={handlePresentReviewFormPress}></DetailedRestaurantHeader>}
                 refreshing={isrefreshing}
                 onRefresh={loadDishes}
                 data={dishes?.length > 0 && dishes}
@@ -127,11 +147,18 @@ const DetailRestaurant = () => {
                     index={1}
                     snapPoints={snapPonits}
                     onChange={handleSheetChange} 
-                    onDismiss={() => setFood(null)}
+                    onDismiss={() => {
+                        setFood(null);
+                        setAddReview(false);
+                    }}
                 >
-                    <View style={styles.contentContainer}>
-                        {food && basket && <DetailedRestaurantDishChoice basket={basket?.id} dish={food} closeModal={handleDismissModalPress}></DetailedRestaurantDishChoice>}
-                    </View>
+                    {addReview ? (
+                        <ReviewForm restaurantId={restaurantId} closeReviewForm={handleDismissReviewFormPress} setReviewExist={setReviewExist}></ReviewForm>
+                    ) : (
+                        <View style={styles.contentContainer}>
+                            {food && basket && <DetailedRestaurantDishChoice basket={basket?.id} dish={food} closeModal={handleDismissModalPress}></DetailedRestaurantDishChoice>}
+                        </View>    
+                    )}
                 </BottomSheetModal>
             </View>
             {basket && basket.total > 0 && (

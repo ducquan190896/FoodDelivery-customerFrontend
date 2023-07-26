@@ -91,24 +91,21 @@ const OrderDetailed = () => {
   useEffect(() => {
     if(order ) {
       setActiveOrder(order)
-      setOrigin({
-        longitude: order?.fromLongitude,
-        latitude: order?.fromLatitude
-      })
-      setDestination({
-        longitude: order?.toLongitude,
-        latitude: order?.toLatitude
-      })
     }
   }, [order, orderID])
 
   useEffect(() => {
-    if(origin && destination) {
-      console.log(origin);
-      console.log(destination);
+    if(activeOrder) {
+      setOrigin({
+        longitude: activeOrder?.fromLongitude,
+        latitude: activeOrder?.fromLatitude
+      })
+      setDestination({
+        longitude: activeOrder?.toLongitude,
+        latitude: activeOrder?.toLatitude
+      })
     }
-  }, [origin, destination])
-
+  }, [activeOrder])
 
   const connect =  async () => {
     const token = await AsyncStorage.getItem("token");

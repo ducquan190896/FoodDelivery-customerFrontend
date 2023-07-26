@@ -230,3 +230,12 @@ export interface declaredStateOrderDish  {
 export interface ImageData {
     image: string
 }
+
+export interface REVIEW {
+    id: number,
+    rate: number,
+    restaurant: number,
+    customer: number,
+    createdDate: string,
+    updatedDate: string
+}

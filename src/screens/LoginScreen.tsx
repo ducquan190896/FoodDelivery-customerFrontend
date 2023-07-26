@@ -57,7 +57,7 @@ const LoginScreen = () => {
     }
 
     const navigateToSignUp = () => {
-        navigation.navigate("SignUp")
+        // navigation.navigate("SignUp")
     }
 
   return (

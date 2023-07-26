@@ -14,10 +14,6 @@
   position: relative
 }
 
-.left-6 {
-  left: 1.5rem
-}
-
 .right-4 {
   right: 1rem
 }
@@ -276,11 +272,6 @@
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
 }
 
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity))
-}
-
 .p-2 {
   padding: 0.5rem
 }
@@ -308,6 +299,11 @@
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem
 }
 
 .pb-2 {
