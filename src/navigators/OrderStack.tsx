@@ -23,7 +23,7 @@ const OrderStack = () => {
         <stack.Navigator
           initialRouteName='OrderListScreen'
           screenOptions={{
-            headerShown: false,
+            headerShown: false
           }}>
             <stack.Screen name="OrderListScreen" component={OrderListScreen} />
             <stack.Screen name="OrderDetailed" component={OrderDetailed} />
