@@ -4,8 +4,10 @@ import { HOST_URL } from "../store";
 import axios from "axios";
 import { ACTION, CHANGEPASSWORD, LoginForm,  UserRegisterForm } from "../../model/index.d";
 import { Alert } from 'react-native'
+import { RootStackParamList } from "../../navigators/MainStack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const login = (loginForm: LoginForm, navigation: NativeStackNavigationProp<RootStackParamList>) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     const {longitude, latitude, username, password} = loginForm;
     try {
         const res = await axios.put(HOST_URL + "/api/users/signIn", {
@@ -26,6 +28,7 @@ export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
             type: "LOG_IN",
             payload: data
         })
+        navigation.navigate('BottomTabs')
     } catch (err) {
         console.log(err);
         Alert.alert("login failed") 
@@ -36,7 +39,7 @@ export const login = (loginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
     }
 }
  
-export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+export const Register = (registerForm: UserRegisterForm, navigation: NativeStackNavigationProp<RootStackParamList>) => async (dispatch: Dispatch<ACTION>, getState: any) => {
      try {
         console.log("sign up")
         const res = await axios.post(HOST_URL + "/api/users/signup", registerForm);
@@ -49,6 +52,7 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
             type: "REGISTER",
             payload: data
         })
+        navigation.navigate("BottomTabs");
      } catch (err) {
       dispatch({
           type: "USER_ERROR",
@@ -185,37 +189,37 @@ export const Register = (registerForm: UserRegisterForm) => async (dispatch: Dis
 
 
  
-  export const LogOutAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
-     try {
-        const token : string | null = await AsyncStorage.getItem("token"); 
-        if (token == null) {
-            console.log("token is null");
-            Alert.alert("token is null") 
-            dispatch({
-                type: "USER_ERROR",
-                payload: "token is null"
-            });
-        } else {
-            await axios.get(HOST_URL + "/logout", {
-                headers: {
-                    "Authorization": token
-                }
-            })
-        }
-        await AsyncStorage.removeItem("token");
-        console.log("logout");
-        dispatch({
-            type: "LOG_OUT"
-        })
+//   export const LogOutAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+//      try {
+//         const token : string | null = await AsyncStorage.getItem("token"); 
+//         if (token == null) {
+//             console.log("token is null");
+//             Alert.alert("token is null") 
+//             dispatch({
+//                 type: "USER_ERROR",
+//                 payload: "token is null"
+//             });
+//         } else {
+//             await axios.get(HOST_URL + "/logout", {
+//                 headers: {
+//                     "Authorization": token
+//                 }
+//             })
+//         }
+//         await AsyncStorage.removeItem("token");
+//         console.log("logout");
+//         dispatch({
+//             type: "LOG_OUT"
+//         })
       
-     } catch (err) {
-        dispatch({
-            type: "USER_ERROR",
-            payload: err
-        })
-     }
+//      } catch (err) {
+//         dispatch({
+//             type: "USER_ERROR",
+//             payload: err
+//         })
+//      }
   
-}
+// }
 
 export const updateProfileAction = (firstname?: string, surename?: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
@@ -278,4 +282,10 @@ export const updateProfileAction = (firstname?: string, surename?: string) => as
          type: "USER_RESET"
      })
  }
+ export const logOutAction = () => async (dispatch : Dispatch<ACTION>, getState: any) => {
+    await AsyncStorage.removeItem('token');
+    dispatch({
+        type: "LOG_OUT"
+    })
+}
  

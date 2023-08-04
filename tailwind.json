@@ -144,6 +144,11 @@
 			"marginTop": 32
 		}
 	},
+	"mb-8": {
+		"style": {
+			"marginBottom": 32
+		}
+	},
 	"block": {
 		"style": {
 			"display": "block"
@@ -389,6 +394,12 @@
 			"paddingRight": 16
 		}
 	},
+	"px-6": {
+		"style": {
+			"paddingLeft": 24,
+			"paddingRight": 24
+		}
+	},
 	"px-8": {
 		"style": {
 			"paddingLeft": 32,
@@ -405,12 +416,6 @@
 		"style": {
 			"paddingTop": 16,
 			"paddingBottom": 16
-		}
-	},
-	"px-6": {
-		"style": {
-			"paddingLeft": 24,
-			"paddingRight": 24
 		}
 	},
 	"pb-2": {
@@ -475,6 +480,12 @@
 	"capitalize": {
 		"style": {
 			"textTransform": "capitalize"
+		}
+	},
+	"text-[#6203fc]": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(98 3 252 / var(--tw-text-opacity))"
 		}
 	},
 	"text-[#f7691a]": {

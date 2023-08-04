@@ -15,16 +15,17 @@ import { PersonalStackParamList } from '../navigators/PersonalStack';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BottomTabProps } from '../navigators/BottomTabs';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
-import { getAuthUserAction, updateImageProfileAction } from '../store/actions/userAction';
+import { getAuthUserAction, logOutAction, updateImageProfileAction } from '../store/actions/userAction';
 import LoadingComponent from '../components/LoadingComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { uploadImageFunction } from '../utils/ImageUtil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 export type ProfileScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<PersonalStackParamList, "ProfileScreen">,
-BottomTabNavigationProp<BottomTabProps>
+NativeStackNavigationProp<RootStackParamList>
 >;
 
 const ProfileScreen = () => {
@@ -67,6 +68,11 @@ const ProfileScreen = () => {
         }
     }
 
+    const logOutHandler = async () => {
+        dispatch(logOutAction() as any);
+        navigation.navigate("Login");
+    };
+
 
     if(isLoading) {
         return <LoadingComponent/>
@@ -102,7 +108,7 @@ const ProfileScreen = () => {
                 <Text style={tw('text-black text-lg')}>{authUser?.username}</Text>
             </View>
         </View>
-        <TouchableOpacity onPress={navigateToProfileForm} style={tw('flex-row items-center w-full h-10 px-4 mb-4')}>
+        <TouchableOpacity onPress={navigateToProfileForm} style={tw('flex-row items-center w-full h-10 px-4 mb-8')}>
             <View style={tw('mr-8')}>
                 <Ionicons name='person-circle-outline' size={34} color={"#f7691a"}></Ionicons>
             </View>
@@ -113,7 +119,7 @@ const ProfileScreen = () => {
                 <AntDesign name='right' size={24} color={"#f7691a"}></AntDesign>
             </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={navigateToChangePasswordForm} style={tw('flex-row items-center w-full h-10 px-4 mb-2')}>
+        <TouchableOpacity onPress={navigateToChangePasswordForm} style={tw('flex-row items-center w-full h-10 px-4 mb-8')}>
             <View style={tw('mr-8')}>
                 <MaterialIcons name='security' size={34} color={"#f7691a"}></MaterialIcons>
             </View>
@@ -124,6 +130,18 @@ const ProfileScreen = () => {
                 <AntDesign name='right' size={24} color={"#f7691a"}></AntDesign>
             </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={logOutHandler} style={tw('flex-row items-center w-full h-10 px-4 mb-2')}>
+            <View style={tw('mr-8')}>
+                <AntDesign name='logout' size={34} color={"#f7691a"}></AntDesign>
+            </View>
+            <View style={[tw('flex-1'), {}]}>
+                <Text style={tw('text-lg font-bold text-gray-500')}>Log Out</Text>
+            </View>
+            <View style={tw('')}>
+                <AntDesign name='right' size={24} color={"#f7691a"}></AntDesign>
+            </View>
+        </TouchableOpacity>
+
 
     </SafeAreaView>
   )

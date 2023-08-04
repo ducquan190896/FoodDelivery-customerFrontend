@@ -56,6 +56,7 @@ const BottomTabs = () => {
             <tab.Screen 
                 options={{
                 headerShown: false,
+                unmountOnBlur: true,
                 tabBarIcon: ({color}) => (
                     <Entypo name="box" size={24} color={color} />
                     )
