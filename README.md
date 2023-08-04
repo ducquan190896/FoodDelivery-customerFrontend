@@ -8,10 +8,10 @@ The Food delivery project includes 4 repositories and was developed by Quan Doan
 - Courier mobile: Hajri Mohamed
 - Backend repository: Quan Doan
 
-# Video demo
+# Video demo for the customer app
 link: https://www.youtube.com/watch?v=-0hClUvOCvw
 
-# Features
+# Features of the customer app
 - Login and register user
 - the app get user's current location whenever they sign in or sign up into the app
 - user gets a list of restaurant based on the user's current location.
