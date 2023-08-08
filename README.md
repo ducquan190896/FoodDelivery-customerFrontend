@@ -2,13 +2,13 @@
 The mobile app is used for customers to make an order from restaurants, and track the order location and status when the order is updated by its courier and restaurant.
 
 # Food Delivery Project
-The project aims to simulate the whole process of food delivery from the time when customer makes the order, then the restaurant confirms and cooks the order, the order is finally delivery by the courier to the customer's destination. The project focuses on the order delivery tracking in real-time, so all customer, restaurant, courier will be informed of the order's status whenever it's status get updated by other entities. The project includes three separate mobile apps for couriers, customers, and restaurants.  
+The project aims to simulate the whole process of food delivered from the time when customer makes the order, then the restaurant confirms and cooks the order, the order is finally delivery by the courier to the customer's destination. The project focuses on the order delivery tracking in real-time, so all customer, restaurant, courier will be informed of the order's status whenever it's status get updated by other entities. The project includes three separate mobile apps for couriers, customers, and restaurants.  
 
-The Food delivery project includes 4 repositories and was developed by Quan Doan And Hajri Mohamed.
+The Food delivery project includes 4 repositories and was developed by Quan Doan and Hajri Mohamed.
+- Backend repository: Quan Doan
 - Customer mobile: Quan Doan 
 - Restaurant mobile: Quan Doan
 - Courier mobile: Hajri Mohamed
-- Backend repository: Quan Doan
 
 # Video demo for the customer app
 link: https://www.youtube.com/watch?v=-0hClUvOCvw
@@ -26,6 +26,7 @@ link: https://www.youtube.com/watch?v=-0hClUvOCvw
 # Technologies for the project
 - SpringBoot, Spring Security, Maven
 - WebSocket
+- Apache Kafka
 - PostgresSQL
 - React-Native
 - Typescript
